@@ -764,6 +764,42 @@
   .step:hover { opacity: 0.85; }
   .step:hover .step-num { border-color: var(--wbs-lime); }
 
+  /* Binding agreement checkbox */
+  .binding-agreement {
+    margin-top: var(--space-xl);
+    padding: var(--space-md) var(--space-lg);
+    background: rgba(202, 241, 162, 0.04);
+    border: 1px solid rgba(202, 241, 162, 0.2);
+    border-radius: var(--radius-md);
+  }
+
+  .agreement-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .agreement-checkbox input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--wbs-lime);
+    cursor: pointer;
+  }
+
+  .agreement-text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--wbs-white);
+  }
+
+  .agreement-text a {
+    color: var(--wbs-lime);
+    text-decoration: underline;
+  }
+
   /* Payment method radios */
   .payment-options {
     display: grid;
@@ -1125,7 +1161,6 @@
       <ul>
         <li>Alles aus Care</li>
         <li>WhatsApp, SMS & E-Mail</li>
-        <li>Monatliches Review-Gespräch</li>
         <li>Bis zu 2h Content-Anpassungen / Monat</li>
         <li>Reaktionszeit: 4 Stunden</li>
       </ul>
@@ -1162,11 +1197,43 @@
 
     <form class="signup-card" action="https://formsubmit.co/f2514e26345b02bcd70e1816d8f59fd3" method="POST">
       <!-- Formsubmit.co configuration -->
-      <input type="hidden" name="_subject" value="Neue WBS Website Care Anfrage">
+      <input type="hidden" name="_subject" value="Neue WBS Website Care Beauftragung">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="true">
       <input type="hidden" name="_next" value="https://care.woods.consulting/?submitted=1">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+      <!-- Order confirmation email sent automatically to the customer's email address -->
+      <input type="hidden" name="_autoresponse" value="Sehr geehrte Kundin, sehr geehrter Kunde,
+
+vielen Dank für Ihre Beauftragung von WBS Website Care.
+
+Wir haben Ihren verbindlichen Auftrag erhalten und bestätigen hiermit den Eingang. Diese E-Mail dient als Auftragsbestätigung.
+
+WAS PASSIERT JETZT?
+
+1. Innerhalb der nächsten 24 Stunden erhalten Sie von uns eine schriftliche, individuelle Auftragsbestätigung mit Ihrem Vertrag und allen Details zu den nächsten Schritten.
+
+2. Bei SEPA-Lastschrift senden wir Ihnen ein elektronisches SEPA-Mandat zur Bestätigung. Bei Rechnungszahlung erhalten Sie die Rechnung mit 14 Tagen Zahlungsziel.
+
+3. Nach Vertragsabschluss richten wir Ihre Websites innerhalb von 5 Werktagen ein – Wordfence Premium-Lizenzen, Monitoring und Benachrichtigungen.
+
+WICHTIGE HINWEISE
+
+- Ihr Auftrag ist verbindlich und wird zum vereinbarten Jahresbetrag in Rechnung gestellt.
+- Es gilt eine Mindestvertragslaufzeit von 12 Monaten ab Inbetriebnahme.
+- Kündigung ist zum Ende der Vertragslaufzeit möglich (3 Monate Kündigungsfrist).
+- Unsere AGB und Datenschutzerklärung finden Sie unter https://care.woods.consulting/
+
+Bei Rückfragen erreichen Sie uns jederzeit per E-Mail an zach@woods.consulting.
+
+Mit freundlichen Grüßen
+Zachary Woods
+WOODS Business Solutions
+
+— — —
+WOODS Business Solutions (WBS)
+John-Skilton Straße 22 · 97074 Würzburg
+https://woods.consulting">
       <!-- Hidden state-mirroring fields (updated by JS when user clicks tier/payment cards) -->
       <input type="hidden" name="paket" id="hidden-paket" value="Care+">
       <input type="hidden" name="zahlungsart" id="hidden-zahlungsart" value="SEPA-Lastschrift">
@@ -1190,7 +1257,7 @@
         <p class="step-desc">Sie können das Paket später jederzeit wechseln.</p>
         <div class="tier-options">
           <div class="tier-option"><div class="tier-option-radio"></div><div class="tier-option-info"><div class="tier-option-name">Care</div><div class="tier-option-desc">Solide Basis für bis zu 3 Websites</div></div><div class="tier-option-price"><div class="amt">1.790 €</div><div class="per">/ Jahr</div></div></div>
-          <div class="tier-option selected"><div class="tier-option-radio"></div><div class="tier-option-info"><div class="tier-option-name">Care+ <span class="recommend-tag" style="margin-left:8px">Empfohlen</span></div><div class="tier-option-desc">Multi-Channel-Benachrichtigungen, Review-Gespräche</div></div><div class="tier-option-price"><div class="amt">2.990 €</div><div class="per">/ Jahr</div></div></div>
+          <div class="tier-option selected"><div class="tier-option-radio"></div><div class="tier-option-info"><div class="tier-option-name">Care+ <span class="recommend-tag" style="margin-left:8px">Empfohlen</span></div><div class="tier-option-desc">Multi-Channel-Benachrichtigungen</div></div><div class="tier-option-price"><div class="amt">2.990 €</div><div class="per">/ Jahr</div></div></div>
         </div>
       </div>
 
@@ -1250,13 +1317,9 @@
             <label>An welche E-Mail-Adresse?</label>
             <input type="email" name="benachrichtigung_email" placeholder="z.B. team@firma.de">
           </div>
-          <div class="form-field full channel-dest" id="dest-whatsapp" style="display:flex">
-            <label>An welche WhatsApp-Nummer?</label>
-            <input type="tel" name="benachrichtigung_whatsapp" placeholder="z.B. +49 170 1234567">
-          </div>
-          <div class="form-field full channel-dest" id="dest-sms" style="display:none">
-            <label>An welche SMS-Nummer?</label>
-            <input type="tel" name="benachrichtigung_sms" placeholder="z.B. +49 170 1234567">
+          <div class="form-field full channel-dest" id="dest-phone" style="display:flex">
+            <label>An welche Telefonnummer? <span style="color:var(--wbs-text-muted); font-weight:400; font-size:12px; text-transform:none; letter-spacing:0">(für SMS und/oder WhatsApp)</span></label>
+            <input type="tel" name="benachrichtigung_telefon" placeholder="z.B. +49 170 1234567">
           </div>
         </div>
       </div>
@@ -1307,15 +1370,25 @@
         <p style="font-size: 12px; color: var(--wbs-text-muted); margin-top: var(--space-sm)">Der finale Betrag wird im individuellen Vertragsangebot ausgewiesen.</p>
       </div>
 
+      <!-- Binding agreement (required) -->
+      <div class="binding-agreement">
+        <label class="agreement-checkbox">
+          <input type="checkbox" name="agb_akzeptiert" value="ja" required>
+          <span class="agreement-text">
+            Ich erteile hiermit <strong>verbindlich</strong> den Auftrag entsprechend der oben gewählten Optionen und akzeptiere die <a href="#agb" target="_blank">Allgemeinen Geschäftsbedingungen</a> sowie die <a href="#datenschutz" target="_blank">Datenschutzerklärung</a>. Ich bestätige, dass es sich um eine kostenpflichtige, mindestens 12-monatige Beauftragung handelt.
+          </span>
+        </label>
+      </div>
+
       <!-- Form actions -->
       <div class="form-actions">
         <a href="#top" class="btn-secondary">← Zurück</a>
-        <button type="submit" class="btn-primary">Anfrage absenden →</button>
+        <button type="submit" class="btn-primary">Verbindlich beauftragen →</button>
       </div>
     </form>
 
     <p style="text-align: center; color: var(--wbs-text-muted); font-size: 13px; margin-top: var(--space-lg)">
-      Mit dem Absenden akzeptieren Sie unsere AGB und Datenschutzerklärung. Wir melden uns innerhalb von 24 Stunden mit Ihrem individuellen Vertragsangebot.
+      Sie erhalten unmittelbar nach dem Absenden eine Auftragsbestätigung per E-Mail. Innerhalb von 24 Stunden senden wir Ihnen Ihren individuellen Vertrag.
     </p>
   </div>
 </section>
@@ -1401,10 +1474,17 @@
   document.getElementById('anzahl-websites')?.addEventListener('input', recomputeSummary);
 
   // ----- Channel checkbox toggle (visual label drives the inner checkbox state)
-  // Also reveals/hides the matching destination input below.
-  function syncChannelDestination(channelKey, isChecked) {
-    const dest = document.getElementById('dest-' + channelKey);
-    if (dest) dest.style.display = isChecked ? 'flex' : 'none';
+  // Reveals/hides destination inputs:
+  //  - "dest-email"  visible when E-Mail channel is checked
+  //  - "dest-phone"  visible when WhatsApp OR SMS is checked (single shared phone input)
+  function syncChannelDestinations() {
+    const emailOn = !!document.querySelector('.channel-checkbox[data-channel="email"].checked');
+    const whatsappOn = !!document.querySelector('.channel-checkbox[data-channel="whatsapp"].checked');
+    const smsOn = !!document.querySelector('.channel-checkbox[data-channel="sms"].checked');
+    const emailEl = document.getElementById('dest-email');
+    const phoneEl = document.getElementById('dest-phone');
+    if (emailEl) emailEl.style.display = emailOn ? 'flex' : 'none';
+    if (phoneEl) phoneEl.style.display = (whatsappOn || smsOn) ? 'flex' : 'none';
   }
 
   document.querySelectorAll('.channel-checkbox').forEach(cb => {
@@ -1413,16 +1493,12 @@
       cb.classList.toggle('checked');
       const inp = cb.querySelector('input');
       if (inp) inp.checked = cb.classList.contains('checked');
-      const channelKey = cb.getAttribute('data-channel');
-      if (channelKey) syncChannelDestination(channelKey, cb.classList.contains('checked'));
+      syncChannelDestinations();
     });
   });
 
   // Initialize destination visibility on page load to match initial checked state
-  document.querySelectorAll('.channel-checkbox').forEach(cb => {
-    const channelKey = cb.getAttribute('data-channel');
-    if (channelKey) syncChannelDestination(channelKey, cb.classList.contains('checked'));
-  });
+  syncChannelDestinations();
 
   // ----- Stepper navigation with validation gating
   // Returns first invalid required field encountered up to (but not including) targetStep,
@@ -1444,19 +1520,22 @@
         if (isNaN(v) || v < 1 || v > 50) return sites;
       }
     }
-    // Step 4 (Benachrichtigung) — at least one channel + that channel's destination filled
+    // Step 4 (Benachrichtigung) — at least one channel + the relevant destination filled
     if (targetStep > 4) {
       const checked = document.querySelectorAll('input[name="benachrichtigungskanal"]:checked');
       if (checked.length === 0) {
         return document.querySelector('input[name="benachrichtigungskanal"]');
       }
-      const map = { 'E-Mail': 'benachrichtigung_email', 'WhatsApp': 'benachrichtigung_whatsapp', 'SMS': 'benachrichtigung_sms' };
-      for (const inp of checked) {
-        const fieldName = map[inp.value];
-        if (fieldName) {
-          const dest = document.querySelector(`[name="${fieldName}"]`);
-          if (dest && !dest.value.trim()) return dest;
-        }
+      const values = Array.from(checked).map(c => c.value);
+      // E-Mail channel needs the dest-email input filled
+      if (values.includes('E-Mail')) {
+        const dest = document.querySelector('[name="benachrichtigung_email"]');
+        if (dest && !dest.value.trim()) return dest;
+      }
+      // WhatsApp or SMS share the dest-phone input
+      if (values.includes('WhatsApp') || values.includes('SMS')) {
+        const dest = document.querySelector('[name="benachrichtigung_telefon"]');
+        if (dest && !dest.value.trim()) return dest;
       }
     }
     return null;
