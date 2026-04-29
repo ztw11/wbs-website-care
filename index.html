@@ -1230,11 +1230,12 @@
       <input type="hidden" name="_captcha" value="true">
       <input type="hidden" name="_next" value="https://care.woods.consulting/?submitted=1">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-      <!-- Order confirmation email sent automatically to the customer's email address.
-           Kept short and ASCII-clean: long autoresponses with umlauts/em-dashes triggered
-           HTTP 500 in Formsubmit's template engine. Detailed Auftragsbestaetigung with
-           contract is sent manually within 24h by Zach. -->
-      <input type="hidden" name="_autoresponse" value="Vielen Dank fuer Ihre Beauftragung von WBS Website Care. Wir haben Ihren verbindlichen Auftrag erhalten - diese E-Mail dient als Auftragsbestaetigung. Innerhalb der naechsten 24 Stunden erhalten Sie von uns eine individuelle Auftragsbestaetigung mit Ihrem Vertrag. Bei Rueckfragen: zach@woods.consulting. Mit freundlichen Gruessen, Zachary Woods, WOODS Business Solutions, https://care.woods.consulting/">
+      <!-- Receipt confirmation (Eingangsbestaetigung) sent automatically to the customer's
+           email address. Per AGB section 2, the contract is formed when WBS sends the formal
+           Auftragsbestaetigung within 24 hours - this auto-email is just an acknowledgement
+           of receipt, not the legal acceptance. ASCII-only because Formsubmit's standard
+           endpoint returns HTTP 500 on UTF-8 umlauts/em-dashes. -->
+      <input type="hidden" name="_autoresponse" value="Vielen Dank fuer Ihre Beauftragung von WBS Website Care. Wir haben Ihre verbindliche Anfrage erhalten - diese E-Mail dient als Eingangsbestaetigung. Innerhalb der naechsten 24 Stunden bestaetigen wir Ihren Auftrag offiziell und senden Ihnen Ihren individuellen Vertrag. Bei Rueckfragen: zach@woods.consulting. Mit freundlichen Gruessen, Zachary Woods, WOODS Business Solutions, https://care.woods.consulting/">
       <!-- Hidden state-mirroring fields (updated by JS when user clicks tier/payment cards) -->
       <input type="hidden" name="paket" id="hidden-paket" value="Care+">
       <input type="hidden" name="zahlungsart" id="hidden-zahlungsart" value="SEPA-Lastschrift">
@@ -1368,7 +1369,6 @@
           <div class="summary-row"><span class="label">19% MwSt.</span><span id="summary-vat">596,41 €</span></div>
           <div class="summary-row total"><span>Gesamt / Jahr</span><span id="summary-total">3.735,41 €</span></div>
         </div>
-        <p style="font-size: 12px; color: var(--wbs-text-muted); margin-top: var(--space-sm)">Der finale Betrag wird im individuellen Vertragsangebot ausgewiesen.</p>
       </div>
 
       <!-- Binding agreement (required) -->
@@ -1389,7 +1389,7 @@
     </form>
 
     <p style="text-align: center; color: var(--wbs-text-muted); font-size: 13px; margin-top: var(--space-lg)">
-      Sie erhalten unmittelbar nach dem Absenden eine Auftragsbestätigung per E-Mail. Innerhalb von 24 Stunden senden wir Ihnen Ihren individuellen Vertrag.
+      Sie erhalten unmittelbar nach dem Absenden eine Eingangsbestätigung per E-Mail. Innerhalb von 24 Stunden bestätigen wir Ihren Auftrag offiziell und senden Ihnen Ihren individuellen Vertrag.
     </p>
   </div>
 </section>
