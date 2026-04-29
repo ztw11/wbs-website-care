@@ -1614,36 +1614,39 @@
     }
   })();
 
-  // ----- Form submission via Formsubmit AJAX/JSON endpoint -----
-  // The standard application/x-www-form-urlencoded endpoint returns HTTP 500 when the
-  // payload contains UTF-8 umlauts (ü, ä, ö, ß) or em-dashes — see Formsubmit issue tracker.
-  // The /ajax/ JSON endpoint handles UTF-8 correctly. We intercept the submit, build a
-  // JSON object from the form (preserving multi-checkbox values as arrays), POST to the
-  // AJAX endpoint, then redirect to the thank-you page on success. The form's `action`
-  // attribute remains as a graceful no-JS fallback (will still 500 on umlauts in that
-  // path, but the JS path is the primary flow for everyone with JS enabled).
-  (function wireAjaxSubmit() {
+  // ----- Form submission with German-character transliteration -----
+  // Formsubmit's standard endpoint returns HTTP 500 when the payload contains UTF-8
+  // umlauts (ü, ä, ö, ß) or em-dashes. Their /ajax/ endpoint accepts UTF-8 but emails
+  // the data with empty fields. Workaround: we transliterate German-specific characters
+  // to their standard ASCII fallbacks (Duden convention: ü→ue, ä→ae, ö→oe, ß→ss) before
+  // submission. This loses no semantic meaning and is universally readable in German.
+  // The form's `action` attribute remains as a no-JS fallback.
+  function transliterate(str) {
+    if (typeof str !== 'string') return str;
+    return str
+      .replace(/ü/g, 'ue').replace(/Ü/g, 'Ue')
+      .replace(/ä/g, 'ae').replace(/Ä/g, 'Ae')
+      .replace(/ö/g, 'oe').replace(/Ö/g, 'Oe')
+      .replace(/ß/g, 'ss')
+      .replace(/[—–]/g, '-')
+      .replace(/[„""]/g, '"')
+      .replace(/[''‚]/g, "'");
+  }
+
+  (function wireSubmit() {
     const form = document.querySelector('form.signup-card');
     if (!form) return;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Build JSON body from form. Multi-value fields (like benachrichtigungskanal
-      // checkboxes) become arrays.
-      const data = {};
+      // Build URL-encoded body from form, transliterating any string values that
+      // contain characters Formsubmit can't handle.
+      const params = new URLSearchParams();
       const fd = new FormData(form);
       for (const [key, value] of fd.entries()) {
-        if (data[key] !== undefined) {
-          if (Array.isArray(data[key])) data[key].push(value);
-          else data[key] = [data[key], value];
-        } else {
-          data[key] = value;
-        }
+        params.append(key, transliterate(value));
       }
-
-      // Swap /<hash> for /ajax/<hash>
-      const ajaxAction = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
 
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalLabel = submitBtn ? submitBtn.innerHTML : null;
@@ -1653,19 +1656,19 @@
       }
 
       try {
-        const response = await fetch(ajaxAction, {
+        const response = await fetch(form.action, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(data),
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: params.toString(),
         });
-        const result = await response.json().catch(() => ({}));
-        if (response.ok && (result.success === 'true' || result.success === true)) {
+        if (response.ok || response.redirected) {
+          // fetch follows the 302 from Formsubmit to our /?submitted=1 page; either
+          // way we navigate the top window so the thank-you banner shows.
           window.location.href = '/?submitted=1';
           return;
         }
-        throw new Error(result.message || 'Unbekannter Fehler');
+        throw new Error('HTTP ' + response.status);
       } catch (err) {
-        // Surface a friendly inline error and re-enable the submit button.
         let banner = document.getElementById('submit-error-banner');
         if (!banner) {
           banner = document.createElement('div');
