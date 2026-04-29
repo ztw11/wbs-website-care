@@ -735,6 +735,35 @@
   .channel-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
   .channel-detail { font-size: 11px; color: var(--wbs-text-muted); }
 
+  /* Channel destination inputs (revealed when channel checkbox is on) */
+  .channel-destinations { display: flex; flex-direction: column; gap: var(--space-md); margin-top: var(--space-md); }
+  .channel-dest { animation: slideDown 0.25s ease; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Invalid-field flash used by the stepper validation */
+  .form-field input.invalid,
+  input.invalid,
+  #anzahl-websites.invalid {
+    border-color: #ff6b6b !important;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.15) !important;
+    animation: shakeField 0.4s ease;
+  }
+
+  @keyframes shakeField {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  /* Make stepper steps clickable with hover feedback */
+  .step { cursor: pointer; transition: opacity 0.15s; }
+  .step:hover { opacity: 0.85; }
+  .step:hover .step-num { border-color: var(--wbs-lime); }
+
   /* Payment method radios */
   .payment-options {
     display: grid;
@@ -1142,17 +1171,17 @@
       <input type="hidden" name="paket" id="hidden-paket" value="Care+">
       <input type="hidden" name="zahlungsart" id="hidden-zahlungsart" value="SEPA-Lastschrift">
 
-      <!-- Stepper -->
+      <!-- Stepper (clickable; jumping forward validates required fields up to that point) -->
       <div class="stepper">
-        <div class="step complete"><div class="step-num">✓</div><div class="step-label">Paket</div></div>
+        <div class="step complete" data-step="1" data-target="#pricing"><div class="step-num">✓</div><div class="step-label">Paket</div></div>
         <div class="step-line"></div>
-        <div class="step active"><div class="step-num">2</div><div class="step-label">Kontakt</div></div>
+        <div class="step active" data-step="2" data-target="#step-kontakt"><div class="step-num">2</div><div class="step-label">Kontakt</div></div>
         <div class="step-line"></div>
-        <div class="step"><div class="step-num">3</div><div class="step-label">Websites</div></div>
+        <div class="step" data-step="3" data-target="#step-websites"><div class="step-num">3</div><div class="step-label">Websites</div></div>
         <div class="step-line"></div>
-        <div class="step"><div class="step-num">4</div><div class="step-label">Benachrichtigung</div></div>
+        <div class="step" data-step="4" data-target="#step-benachrichtigung"><div class="step-num">4</div><div class="step-label">Benachrichtigung</div></div>
         <div class="step-line"></div>
-        <div class="step"><div class="step-num">5</div><div class="step-label">Zahlung</div></div>
+        <div class="step" data-step="5" data-target="#step-zahlung"><div class="step-num">5</div><div class="step-label">Zahlung</div></div>
       </div>
 
       <!-- Step 1: Tier (visual placeholder, would normally be conditional) -->
@@ -1166,7 +1195,7 @@
       </div>
 
       <!-- Step 2: Contact info (active) -->
-      <div class="form-step">
+      <div class="form-step" id="step-kontakt">
         <h3>Ihre Kontaktdaten</h3>
         <p class="step-desc">Wer ist unser Hauptansprechpartner?</p>
         <div class="form-grid">
@@ -1174,15 +1203,15 @@
           <div class="form-field"><label>Nachname</label><input type="text" name="nachname" placeholder="Nachname" required></div>
           <div class="form-field full"><label>Unternehmen</label><input type="text" name="unternehmen" placeholder="Firma GmbH" required></div>
           <div class="form-field"><label>E-Mail</label><input type="email" name="email" placeholder="name@firma.de" required></div>
-          <div class="form-field"><label>Telefon</label><input type="tel" name="telefon" placeholder="+49 ..."></div>
-          <div class="form-field full"><label>Straße & Hausnummer</label><input type="text" name="strasse" placeholder="Musterweg 1"></div>
-          <div class="form-field"><label>PLZ</label><input type="text" name="plz" placeholder="00000"></div>
-          <div class="form-field"><label>Ort</label><input type="text" name="ort" placeholder="Stadt"></div>
+          <div class="form-field"><label>Telefon</label><input type="tel" name="telefon" placeholder="+49 ..." required></div>
+          <div class="form-field full"><label>Straße & Hausnummer</label><input type="text" name="strasse" placeholder="Musterweg 1" required></div>
+          <div class="form-field"><label>PLZ</label><input type="text" name="plz" placeholder="00000" required></div>
+          <div class="form-field"><label>Ort</label><input type="text" name="ort" placeholder="Stadt" required></div>
         </div>
       </div>
 
       <!-- Step 3: Number of websites -->
-      <div class="form-step" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
+      <div class="form-step" id="step-websites" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
         <h3>Wie viele Websites möchten Sie betreuen lassen?</h3>
         <p class="step-desc">Eine Wordfence-Premium-Lizenz pro Website. Sie können später jederzeit weitere hinzufügen.</p>
         <div class="websites-stepper">
@@ -1194,30 +1223,46 @@
       </div>
 
       <!-- Step 4: Notification preferences (preview) -->
-      <div class="form-step" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
+      <div class="form-step" id="step-benachrichtigung" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
         <h3>Wie sollen wir Sie benachrichtigen?</h3>
         <p class="step-desc">Wählen Sie alle Kanäle, die für Sie passen. Sie können später Schwellenwerte und Ruhezeiten festlegen.</p>
         <div class="channel-options">
-          <label class="channel-checkbox checked">
+          <label class="channel-checkbox checked" data-channel="email">
             <input type="checkbox" name="benachrichtigungskanal" value="E-Mail" checked>
             <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="channel-info"><div class="channel-name">E-Mail</div><div class="channel-detail">An die E-Mail oben</div></div>
+            <div class="channel-info"><div class="channel-name">E-Mail</div><div class="channel-detail">Per E-Mail benachrichtigen</div></div>
           </label>
-          <label class="channel-checkbox checked">
+          <label class="channel-checkbox checked" data-channel="whatsapp">
             <input type="checkbox" name="benachrichtigungskanal" value="WhatsApp" checked>
             <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
-            <div class="channel-info"><div class="channel-name">WhatsApp</div><div class="channel-detail">An die Telefonnummer oben</div></div>
+            <div class="channel-info"><div class="channel-name">WhatsApp</div><div class="channel-detail">Per WhatsApp-Nachricht</div></div>
           </label>
-          <label class="channel-checkbox">
+          <label class="channel-checkbox" data-channel="sms">
             <input type="checkbox" name="benachrichtigungskanal" value="SMS">
             <div class="channel-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
             <div class="channel-info"><div class="channel-name">SMS</div><div class="channel-detail">Auch ohne Datenverbindung</div></div>
           </label>
         </div>
+
+        <!-- Channel-specific destination inputs (revealed based on which channels are checked above) -->
+        <div class="channel-destinations">
+          <div class="form-field full channel-dest" id="dest-email" style="display:flex">
+            <label>An welche E-Mail-Adresse?</label>
+            <input type="email" name="benachrichtigung_email" placeholder="z.B. team@firma.de">
+          </div>
+          <div class="form-field full channel-dest" id="dest-whatsapp" style="display:flex">
+            <label>An welche WhatsApp-Nummer?</label>
+            <input type="tel" name="benachrichtigung_whatsapp" placeholder="z.B. +49 170 1234567">
+          </div>
+          <div class="form-field full channel-dest" id="dest-sms" style="display:none">
+            <label>An welche SMS-Nummer?</label>
+            <input type="tel" name="benachrichtigung_sms" placeholder="z.B. +49 170 1234567">
+          </div>
+        </div>
       </div>
 
       <!-- Step 5: Payment method (preview) -->
-      <div class="form-step" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
+      <div class="form-step" id="step-zahlung" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
         <h3>Wie möchten Sie zahlen?</h3>
         <p class="step-desc">Jährliche Abrechnung, einmal im Voraus. Keine versteckten Gebühren.</p>
 
@@ -1355,13 +1400,107 @@
   });
   document.getElementById('anzahl-websites')?.addEventListener('input', recomputeSummary);
 
-  // Channel checkbox toggle (the visual label drives the inner checkbox state)
+  // ----- Channel checkbox toggle (visual label drives the inner checkbox state)
+  // Also reveals/hides the matching destination input below.
+  function syncChannelDestination(channelKey, isChecked) {
+    const dest = document.getElementById('dest-' + channelKey);
+    if (dest) dest.style.display = isChecked ? 'flex' : 'none';
+  }
+
   document.querySelectorAll('.channel-checkbox').forEach(cb => {
     cb.addEventListener('click', (e) => {
       e.preventDefault();
       cb.classList.toggle('checked');
       const inp = cb.querySelector('input');
       if (inp) inp.checked = cb.classList.contains('checked');
+      const channelKey = cb.getAttribute('data-channel');
+      if (channelKey) syncChannelDestination(channelKey, cb.classList.contains('checked'));
+    });
+  });
+
+  // Initialize destination visibility on page load to match initial checked state
+  document.querySelectorAll('.channel-checkbox').forEach(cb => {
+    const channelKey = cb.getAttribute('data-channel');
+    if (channelKey) syncChannelDestination(channelKey, cb.classList.contains('checked'));
+  });
+
+  // ----- Stepper navigation with validation gating
+  // Returns first invalid required field encountered up to (but not including) targetStep,
+  // or null if all required fields up to that point are filled in.
+  function findFirstInvalidUpToStep(targetStep) {
+    // Step 2 (Kontakt) — all contact fields required
+    if (targetStep > 2) {
+      const contactNames = ['vorname', 'nachname', 'unternehmen', 'email', 'telefon', 'strasse', 'plz', 'ort'];
+      for (const n of contactNames) {
+        const el = document.querySelector(`[name="${n}"]`);
+        if (el && (!el.value.trim() || !el.checkValidity())) return el;
+      }
+    }
+    // Step 3 (Websites) — must be a number 1..50
+    if (targetStep > 3) {
+      const sites = document.getElementById('anzahl-websites');
+      if (sites) {
+        const v = parseInt(sites.value, 10);
+        if (isNaN(v) || v < 1 || v > 50) return sites;
+      }
+    }
+    // Step 4 (Benachrichtigung) — at least one channel + that channel's destination filled
+    if (targetStep > 4) {
+      const checked = document.querySelectorAll('input[name="benachrichtigungskanal"]:checked');
+      if (checked.length === 0) {
+        return document.querySelector('input[name="benachrichtigungskanal"]');
+      }
+      const map = { 'E-Mail': 'benachrichtigung_email', 'WhatsApp': 'benachrichtigung_whatsapp', 'SMS': 'benachrichtigung_sms' };
+      for (const inp of checked) {
+        const fieldName = map[inp.value];
+        if (fieldName) {
+          const dest = document.querySelector(`[name="${fieldName}"]`);
+          if (dest && !dest.value.trim()) return dest;
+        }
+      }
+    }
+    return null;
+  }
+
+  function setStepperActive(stepNumber) {
+    document.querySelectorAll('.step').forEach(step => {
+      const n = parseInt(step.getAttribute('data-step'), 10);
+      step.classList.remove('active', 'complete');
+      const numEl = step.querySelector('.step-num');
+      if (n < stepNumber) {
+        step.classList.add('complete');
+        if (numEl) numEl.textContent = '✓';
+      } else if (n === stepNumber) {
+        step.classList.add('active');
+        if (numEl) numEl.textContent = String(n);
+      } else {
+        if (numEl) numEl.textContent = String(n);
+      }
+    });
+  }
+
+  function flashInvalid(el) {
+    el.classList.add('invalid');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+    setTimeout(() => el.classList.remove('invalid'), 2200);
+  }
+
+  document.querySelectorAll('.stepper .step').forEach(step => {
+    step.addEventListener('click', (e) => {
+      const targetStep = parseInt(step.getAttribute('data-step'), 10);
+      const targetSel = step.getAttribute('data-target');
+      if (!targetStep || !targetSel) return;
+
+      const invalid = findFirstInvalidUpToStep(targetStep);
+      if (invalid) {
+        flashInvalid(invalid);
+        return;
+      }
+
+      const target = document.querySelector(targetSel);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setStepperActive(targetStep);
     });
   });
 
