@@ -1601,7 +1601,7 @@
     });
   });
 
-  // Thank-you banner — shown after Formsubmit redirects back with ?submitted=1
+  // Thank-you banner — shown after submission (AJAX redirect or no-JS fallback _next)
   (function showThankYouIfSubmitted() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('submitted') === '1') {
@@ -1612,6 +1612,75 @@
         history.replaceState({}, '', window.location.pathname + window.location.hash);
       }
     }
+  })();
+
+  // ----- Form submission via Formsubmit AJAX/JSON endpoint -----
+  // The standard application/x-www-form-urlencoded endpoint returns HTTP 500 when the
+  // payload contains UTF-8 umlauts (ü, ä, ö, ß) or em-dashes — see Formsubmit issue tracker.
+  // The /ajax/ JSON endpoint handles UTF-8 correctly. We intercept the submit, build a
+  // JSON object from the form (preserving multi-checkbox values as arrays), POST to the
+  // AJAX endpoint, then redirect to the thank-you page on success. The form's `action`
+  // attribute remains as a graceful no-JS fallback (will still 500 on umlauts in that
+  // path, but the JS path is the primary flow for everyone with JS enabled).
+  (function wireAjaxSubmit() {
+    const form = document.querySelector('form.signup-card');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Build JSON body from form. Multi-value fields (like benachrichtigungskanal
+      // checkboxes) become arrays.
+      const data = {};
+      const fd = new FormData(form);
+      for (const [key, value] of fd.entries()) {
+        if (data[key] !== undefined) {
+          if (Array.isArray(data[key])) data[key].push(value);
+          else data[key] = [data[key], value];
+        } else {
+          data[key] = value;
+        }
+      }
+
+      // Swap /<hash> for /ajax/<hash>
+      const ajaxAction = form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalLabel = submitBtn ? submitBtn.innerHTML : null;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Wird gesendet…';
+      }
+
+      try {
+        const response = await fetch(ajaxAction, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (response.ok && (result.success === 'true' || result.success === true)) {
+          window.location.href = '/?submitted=1';
+          return;
+        }
+        throw new Error(result.message || 'Unbekannter Fehler');
+      } catch (err) {
+        // Surface a friendly inline error and re-enable the submit button.
+        let banner = document.getElementById('submit-error-banner');
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.id = 'submit-error-banner';
+          banner.style.cssText = 'margin-top: var(--space-md); padding: 14px 18px; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.35); border-left: 4px solid #ff6b6b; border-radius: 8px; color: var(--wbs-white); font-size: 14px; line-height: 1.5';
+          form.appendChild(banner);
+        }
+        banner.innerHTML = '<strong style="color:#ff8b8b">Übermittlung fehlgeschlagen.</strong> Bitte versuchen Sie es erneut. Falls das Problem bestehen bleibt, kontaktieren Sie uns direkt unter <a href="mailto:zach@woods.consulting" style="color:#ff8b8b">zach@woods.consulting</a>.<br><span style="color:var(--wbs-text-muted); font-size:12px">' + (err && err.message ? err.message : '') + '</span>';
+        banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalLabel;
+        }
+      }
+    });
   })();
 
   // Initial render so the summary is correct on page load
