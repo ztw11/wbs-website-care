@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Datenschutzerklärung — WBS Website Care</title>
+  <meta name="robots" content="index,follow">
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url('/fonts/inter-variable.woff2') format('woff2');
+    }
+
+    :root {
+      --wbs-dark: #0F0F0F;
+      --wbs-bg: #181818;
+      --wbs-surface: #232323;
+      --wbs-lime: #CAF1A2;
+      --wbs-white: #FFFFFF;
+      --wbs-text: #E8E8E8;
+      --wbs-text-muted: #A0A0A0;
+      --wbs-border: rgba(255, 255, 255, 0.1);
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 300;
+      background: var(--wbs-bg);
+      color: var(--wbs-text);
+      line-height: 1.65;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .legal-header {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 15, 15, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--wbs-border);
+      padding: var(--space-md) var(--space-2xl);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+    }
+
+    .legal-header .brand {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--wbs-white);
+      text-decoration: none;
+    }
+
+    .legal-header .back-link {
+      font-size: 13px;
+      color: var(--wbs-text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .legal-header .back-link:hover { color: var(--wbs-lime); }
+
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: var(--space-2xl);
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--wbs-white);
+      margin-bottom: var(--space-sm);
+    }
+
+    h1 .subtitle {
+      display: block;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--wbs-text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: var(--space-xs);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--wbs-lime);
+      letter-spacing: -0.01em;
+      margin-top: var(--space-2xl);
+      margin-bottom: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--wbs-border);
+    }
+
+    h2:first-of-type { padding-top: 0; border-top: none; }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--wbs-white);
+      margin-top: var(--space-lg);
+      margin-bottom: var(--space-sm);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    p { margin-bottom: var(--space-md); font-size: 15px; }
+
+    ul, ol {
+      margin-bottom: var(--space-md);
+      margin-left: var(--space-lg);
+      font-size: 15px;
+    }
+
+    li { margin-bottom: var(--space-xs); }
+
+    a { color: var(--wbs-lime); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .stand {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(202, 241, 162, 0.1);
+      border: 1px solid rgba(202, 241, 162, 0.25);
+      color: var(--wbs-lime);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-xl);
+    }
+
+    .anbieter-box {
+      background: var(--wbs-surface);
+      border: 1px solid var(--wbs-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .anbieter-box .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--wbs-text-muted);
+      margin-bottom: var(--space-xs);
+    }
+
+    .anbieter-box strong { color: var(--wbs-white); font-weight: 600; }
+
+    .data-table {
+      width: 100%;
+      margin: var(--space-md) 0;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .data-table th, .data-table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--wbs-border);
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background: var(--wbs-surface);
+      font-weight: 600;
+      color: var(--wbs-lime);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .data-table td:first-child {
+      font-weight: 600;
+      color: var(--wbs-white);
+      width: 35%;
+    }
+
+    .data-table td:last-child {
+      color: var(--wbs-text-muted);
+    }
+
+    footer.site-footer {
+      padding: var(--space-2xl);
+      border-top: 1px solid var(--wbs-border);
+      color: var(--wbs-text-muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    footer.site-footer a {
+      color: var(--wbs-text-muted);
+      margin: 0 var(--space-sm);
+    }
+
+    footer.site-footer a:hover { color: var(--wbs-lime); }
+
+    @media (max-width: 720px) {
+      .legal-header { padding: var(--space-md); }
+      main { padding: var(--space-lg); }
+      h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="legal-header">
+    <a class="brand" href="/">WBS Website Care</a>
+    <a class="back-link" href="/">← Zurück zur Übersicht</a>
+  </header>
+
+  <main>
+    <span class="stand">Stand: April 2026</span>
+    <h1>Datenschutzerklärung<span class="subtitle">WBS Website Care — care.woods.consulting</span></h1>
+
+    <p>Wir freuen uns über Ihr Interesse an unseren Leistungen. Der Schutz Ihrer personenbezogenen Daten ist uns ein wichtiges Anliegen. Im Folgenden informieren wir Sie über die Verarbeitung Ihrer personenbezogenen Daten beim Besuch dieser Website und bei der Nutzung unserer Dienste, jeweils gemäß den Vorgaben der Datenschutz-Grundverordnung (DSGVO) und des Bundesdatenschutzgesetzes (BDSG).</p>
+
+    <h2>§ 1 Verantwortlicher</h2>
+    <div class="anbieter-box">
+      <span class="label">Verantwortlicher im Sinne von Art. 4 Nr. 7 DSGVO</span>
+      <strong>Zachary Woods</strong><br>
+      WOODS Business Solutions (Einzelunternehmen)<br>
+      John-Skilton Straße 22, 1. Stock<br>
+      97074 Würzburg, Deutschland<br>
+      Telefon: <a href="tel:+499318709897">+49 (0) 931 8709 89 77</a><br>
+      E-Mail: <a href="mailto:info@woods.consulting">info@woods.consulting</a>
+    </div>
+
+    <h2>§ 2 Datenschutzbeauftragter</h2>
+    <p>Aufgrund der Größe und des Tätigkeitsumfangs unseres Einzelunternehmens besteht keine gesetzliche Pflicht zur Bestellung eines Datenschutzbeauftragten gemäß Art. 37 DSGVO i. V. m. § 38 BDSG. Datenschutzanfragen richten Sie bitte direkt an die im Impressum genannte Kontaktadresse.</p>
+
+    <h2>§ 3 Allgemeines zur Datenverarbeitung</h2>
+    <p>(1) Wir verarbeiten personenbezogene Daten unserer Nutzer grundsätzlich nur, soweit dies zur Bereitstellung einer funktionsfähigen Website sowie unserer Inhalte und Leistungen erforderlich ist. Die Verarbeitung erfolgt regelmäßig nur nach Einwilligung der Nutzer (Art. 6 Abs. 1 lit. a DSGVO) oder, wenn die Verarbeitung zur Vertragsanbahnung oder Vertragserfüllung erforderlich ist (Art. 6 Abs. 1 lit. b DSGVO), zur Erfüllung einer rechtlichen Verpflichtung (Art. 6 Abs. 1 lit. c DSGVO) oder zur Wahrung berechtigter Interessen (Art. 6 Abs. 1 lit. f DSGVO).</p>
+    <p>(2) Die personenbezogenen Daten werden gelöscht, sobald der Zweck der Speicherung entfällt. Eine darüber hinausgehende Speicherung erfolgt nur, soweit dies durch europäische oder nationale Vorschriften (z. B. handels- und steuerrechtliche Aufbewahrungsfristen) vorgesehen ist.</p>
+
+    <h2>§ 4 Bereitstellung der Website (Hosting)</h2>
+    <p>(1) Diese Website wird über <strong>GitHub Pages</strong> bereitgestellt, einen Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf der Website werden technisch notwendige Daten (insbesondere IP-Adresse, Datum und Uhrzeit der Anfrage, übertragene Datenmenge, Referrer-URL, Browser- und Geräteinformationen) durch GitHub in Server-Logfiles erfasst.</p>
+    <p>(2) Diese Verarbeitung erfolgt auf Grundlage unseres berechtigten Interesses an einer technisch fehlerfreien und sicheren Bereitstellung der Website (Art. 6 Abs. 1 lit. f DSGVO).</p>
+    <p>(3) GitHub verarbeitet die Daten teilweise in den USA. Eine Übermittlung in Drittländer findet im Rahmen der Standardvertragsklauseln der EU-Kommission (Art. 46 Abs. 2 lit. c DSGVO) sowie auf Grundlage des EU-US Data Privacy Framework statt, dem GitHub beigetreten ist. Weitere Informationen zur Datenverarbeitung durch GitHub: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Privacy Statement</a>.</p>
+
+    <h2>§ 5 Cookies und ähnliche Technologien</h2>
+    <p>Auf dieser Website werden derzeit <strong>keine Cookies</strong> durch uns gesetzt, die Nutzerverhalten erfassen oder zu Marketing- bzw. Analysezwecken eingesetzt würden. Es kommen ausschließlich technisch notwendige Funktionen zum Einsatz.</p>
+
+    <h2>§ 6 Schriftarten</h2>
+    <p>Die auf dieser Website verwendeten Schriftarten („Inter") werden lokal vom selben Server ausgeliefert, von dem auch die Website bereitgestellt wird (selbst-gehostet). Es findet beim Aufruf der Website <strong>keine Verbindung zu externen Schriftart-Anbietern</strong> wie Google Fonts statt. Insbesondere wird Ihre IP-Adresse zum Zweck der Schriftarten-Auslieferung nicht an Dritte übermittelt.</p>
+
+    <h2>§ 7 Online-Beauftragungsformular</h2>
+    <p>(1) Auf dieser Website können Sie über das Online-Beauftragungsformular einen Vertrag zu unseren WBS Website Care-Leistungen anfragen. Dabei werden insbesondere die folgenden personenbezogenen Daten erhoben:</p>
+
+    <table class="data-table">
+      <thead><tr><th>Datenkategorie</th><th>Beispiele</th></tr></thead>
+      <tbody>
+        <tr><td>Identifikationsdaten</td><td>Vorname, Nachname, Unternehmen</td></tr>
+        <tr><td>Kontaktdaten</td><td>E-Mail-Adresse, Telefonnummer</td></tr>
+        <tr><td>Adressdaten</td><td>Straße, PLZ, Ort</td></tr>
+        <tr><td>Vertragsdaten</td><td>gewähltes Paket, Anzahl Websites, gewünschte Benachrichtigungskanäle</td></tr>
+        <tr><td>Zahlungsdaten</td><td>Zahlungsart, IBAN, BIC, Kontoinhaber (bei SEPA-Lastschrift)</td></tr>
+      </tbody>
+    </table>
+
+    <p>(2) Die Verarbeitung erfolgt zum Zweck der Anbahnung und Durchführung des Vertrags über die WBS Website Care-Leistungen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung und Vertragserfüllung) sowie, soweit für die Rechnungsstellung und Buchhaltung erforderlich, Art. 6 Abs. 1 lit. c DSGVO i. V. m. handels- und steuerrechtlichen Aufbewahrungspflichten.</p>
+
+    <p>(3) Die Übermittlung der Formulardaten erfolgt aktuell technisch über den Dienst <strong>FormSubmit</strong>, betrieben von Inblanck LLC, Saint Joseph, USA. Hierbei werden die Formulardaten von dort an die im Impressum genannte E-Mail-Adresse weitergeleitet. Die Übermittlung in die USA stützt sich auf die Standardvertragsklauseln der EU-Kommission. Sobald die in Vorbereitung befindliche Eigenlösung über Microsoft Power Automate produktiv ist, werden die Formulardaten ausschließlich innerhalb der EU verarbeitet; diese Datenschutzerklärung wird entsprechend angepasst.</p>
+
+    <p>(4) Sofern Sie die Pflicht-Checkbox „Verbindlich beauftragen" bestätigen, sendet FormSubmit zusätzlich automatisch eine Auftragsbestätigung an die von Ihnen angegebene E-Mail-Adresse.</p>
+
+    <h2>§ 8 Datenverarbeitung im Rahmen der Vertragsdurchführung</h2>
+    <p>(1) Bei Abschluss eines Vertrags verarbeiten wir Ihre Daten zur Erfüllung der vertraglichen Leistungen. Hierzu zählen insbesondere:</p>
+    <ul>
+      <li>Verwaltung Ihrer WordPress-Installationen (Backups, Updates, Sicherheits-Monitoring)</li>
+      <li>Verwaltung von Wordfence Premium-Lizenzen</li>
+      <li>Versand von Benachrichtigungen über die von Ihnen gewählten Kanäle (E-Mail, WhatsApp, SMS)</li>
+      <li>Rechnungsstellung und Forderungsmanagement</li>
+    </ul>
+    <p>(2) Soweit wir hierfür Dienstleister einsetzen (insbesondere Hosting-Anbieter, Wordfence-Lizenzinfrastruktur, ggf. Anbieter von Messaging-Diensten), schließen wir mit diesen — soweit erforderlich — Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO.</p>
+    <p>(3) Eine darüber hinausgehende Weitergabe an Dritte erfolgt nicht, es sei denn, wir sind hierzu gesetzlich verpflichtet oder Sie haben ausdrücklich eingewilligt.</p>
+
+    <h2>§ 9 Auftragsverarbeitung beim Kunden</h2>
+    <p>Soweit wir im Rahmen der Vertragserfüllung in Ihrem Auftrag personenbezogene Daten Ihrer Website-Besucher oder Endnutzer verarbeiten (z. B. bei Backup, Wiederherstellung, Sicherheits-Logs), schließen wir mit Ihnen einen gesonderten Auftragsverarbeitungsvertrag (AVV) gemäß Art. 28 DSGVO.</p>
+
+    <h2>§ 10 Speicherdauer</h2>
+    <p>(1) Personenbezogene Daten aus dem Online-Beauftragungsformular werden für die Dauer der Vertragsdurchführung sowie zur Erfüllung gesetzlicher Aufbewahrungspflichten gespeichert. Es gelten insbesondere:</p>
+    <ul>
+      <li>Vertrags- und Buchhaltungsdaten: <strong>10 Jahre</strong> gemäß § 257 HGB / § 147 AO</li>
+      <li>Übrige Kontaktdaten: bis zur Beendigung des Vertragsverhältnisses zuzüglich gesetzlicher Verjährungsfristen (regelmäßig 3 Jahre)</li>
+    </ul>
+    <p>(2) Server-Logdaten von GitHub Pages werden gemäß den Richtlinien des Anbieters automatisch gelöscht.</p>
+
+    <h2>§ 11 Ihre Rechte als betroffene Person</h2>
+    <p>Sie haben uns gegenüber folgende Rechte hinsichtlich der Sie betreffenden personenbezogenen Daten:</p>
+    <ul>
+      <li><strong>Recht auf Auskunft</strong> (Art. 15 DSGVO)</li>
+      <li><strong>Recht auf Berichtigung</strong> unrichtiger oder unvollständiger Daten (Art. 16 DSGVO)</li>
+      <li><strong>Recht auf Löschung</strong> („Recht auf Vergessenwerden", Art. 17 DSGVO)</li>
+      <li><strong>Recht auf Einschränkung der Verarbeitung</strong> (Art. 18 DSGVO)</li>
+      <li><strong>Recht auf Datenübertragbarkeit</strong> (Art. 20 DSGVO)</li>
+      <li><strong>Widerspruchsrecht</strong> gegen die Verarbeitung Ihrer Daten (Art. 21 DSGVO)</li>
+      <li><strong>Recht auf Widerruf einer erteilten Einwilligung</strong> mit Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO)</li>
+    </ul>
+    <p>Zur Ausübung Ihrer Rechte genügt eine formlose Mitteilung an die im Impressum genannte Kontaktadresse.</p>
+
+    <h2>§ 12 Beschwerderecht bei der Aufsichtsbehörde</h2>
+    <p>Unbeschadet anderweitiger verwaltungsrechtlicher oder gerichtlicher Rechtsbehelfe steht Ihnen gemäß Art. 77 DSGVO das Recht auf Beschwerde bei einer Aufsichtsbehörde zu, insbesondere am Ort Ihres gewöhnlichen Aufenthalts, Ihres Arbeitsplatzes oder am Ort des mutmaßlichen Verstoßes. Für unseren Sitz ist zuständig:</p>
+    <div class="anbieter-box">
+      <strong>Bayerisches Landesamt für Datenschutzaufsicht (BayLDA)</strong><br>
+      Promenade 18<br>
+      91522 Ansbach, Deutschland<br>
+      Telefon: +49 (0) 981 180093-0<br>
+      E-Mail: <a href="mailto:poststelle@lda.bayern.de">poststelle@lda.bayern.de</a><br>
+      Web: <a href="https://www.lda.bayern.de" target="_blank" rel="noopener noreferrer">https://www.lda.bayern.de</a>
+    </div>
+
+    <h2>§ 13 Sicherheit der Verarbeitung</h2>
+    <p>Wir treffen angemessene technische und organisatorische Maßnahmen, um Ihre personenbezogenen Daten gegen zufällige oder vorsätzliche Manipulation, teilweisen oder vollständigen Verlust, Zerstörung oder gegen den unbefugten Zugriff Dritter zu schützen. Insbesondere wird die Übertragung auf dieser Website mittels TLS verschlüsselt. Unsere Sicherheitsmaßnahmen werden entsprechend der technologischen Entwicklung fortlaufend verbessert.</p>
+
+    <h2>§ 14 Aktualität und Änderung dieser Datenschutzerklärung</h2>
+    <p>Diese Datenschutzerklärung hat den Stand <strong>April 2026</strong>. Aufgrund der Weiterentwicklung unserer Website und Angebote oder aufgrund geänderter gesetzlicher bzw. behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern. Die jeweils aktuelle Datenschutzerklärung kann unter <a href="https://care.woods.consulting/datenschutz.html">https://care.woods.consulting/datenschutz.html</a> jederzeit abgerufen und ausgedruckt werden.</p>
+  </main>
+
+  <footer class="site-footer">
+    © 2026 WOODS Business Solutions · Inhaber Zachary Woods · John-Skilton Straße 22 · 97074 Würzburg
+    &nbsp;·&nbsp;
+    <a href="/impressum.html">Impressum</a> · <a href="/agb.html">AGB</a> · <a href="/datenschutz.html">Datenschutz</a>
+  </footer>
+</body>
+</html>
