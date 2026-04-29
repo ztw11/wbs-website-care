@@ -1229,38 +1229,11 @@
       <input type="hidden" name="_captcha" value="true">
       <input type="hidden" name="_next" value="https://care.woods.consulting/?submitted=1">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-      <!-- Order confirmation email sent automatically to the customer's email address -->
-      <input type="hidden" name="_autoresponse" value="Sehr geehrte Kundin, sehr geehrter Kunde,
-
-vielen Dank für Ihre Beauftragung von WBS Website Care.
-
-Wir haben Ihren verbindlichen Auftrag erhalten und bestätigen hiermit den Eingang. Diese E-Mail dient als Auftragsbestätigung.
-
-WAS PASSIERT JETZT?
-
-1. Innerhalb der nächsten 24 Stunden erhalten Sie von uns eine schriftliche, individuelle Auftragsbestätigung mit Ihrem Vertrag und allen Details zu den nächsten Schritten.
-
-2. Bei SEPA-Lastschrift senden wir Ihnen ein elektronisches SEPA-Mandat zur Bestätigung. Bei Rechnungszahlung erhalten Sie die Rechnung mit 14 Tagen Zahlungsziel.
-
-3. Nach Vertragsabschluss richten wir Ihre Websites innerhalb von 5 Werktagen ein – Wordfence Premium-Lizenzen, Monitoring und Benachrichtigungen.
-
-WICHTIGE HINWEISE
-
-- Ihr Auftrag ist verbindlich und wird zum vereinbarten Jahresbetrag in Rechnung gestellt.
-- Es gilt eine Mindestvertragslaufzeit von 12 Monaten ab Inbetriebnahme.
-- Kündigung ist zum Ende der Vertragslaufzeit möglich (3 Monate Kündigungsfrist).
-- Unsere AGB und Datenschutzerklärung finden Sie unter https://care.woods.consulting/
-
-Bei Rückfragen erreichen Sie uns jederzeit per E-Mail an zach@woods.consulting.
-
-Mit freundlichen Grüßen
-Zachary Woods
-WOODS Business Solutions
-
-— — —
-WOODS Business Solutions (WBS)
-John-Skilton Straße 22 · 97074 Würzburg
-https://woods.consulting">
+      <!-- Order confirmation email sent automatically to the customer's email address.
+           Kept short and ASCII-clean: long autoresponses with umlauts/em-dashes triggered
+           HTTP 500 in Formsubmit's template engine. Detailed Auftragsbestaetigung with
+           contract is sent manually within 24h by Zach. -->
+      <input type="hidden" name="_autoresponse" value="Vielen Dank fuer Ihre Beauftragung von WBS Website Care. Wir haben Ihren verbindlichen Auftrag erhalten - diese E-Mail dient als Auftragsbestaetigung. Innerhalb der naechsten 24 Stunden erhalten Sie von uns eine individuelle Auftragsbestaetigung mit Ihrem Vertrag. Bei Rueckfragen: zach@woods.consulting. Mit freundlichen Gruessen, Zachary Woods, WOODS Business Solutions, https://care.woods.consulting/">
       <!-- Hidden state-mirroring fields (updated by JS when user clicks tier/payment cards) -->
       <input type="hidden" name="paket" id="hidden-paket" value="Care+">
       <input type="hidden" name="zahlungsart" id="hidden-zahlungsart" value="SEPA-Lastschrift">
