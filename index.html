@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WBS Website Care — Sicherheit für Ihre WordPress-Website</title>
+<style>
+  /* ---------- Brand Tokens ---------- */
+  :root {
+    --wbs-dark: #232323;
+    --wbs-lime: #CAF1A2;
+    --wbs-lime-muted: #B8E08F;
+    --wbs-lime-light: #E5F8D4;
+    --wbs-blue-grey: #363C46;
+    --wbs-light-grey: #E8E8E8;
+    --wbs-white: #FFFFFF;
+    --wbs-black: #0F0F0F;
+    --wbs-text-muted: #A0A0A0;
+    --wbs-border: rgba(255, 255, 255, 0.1);
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 64px;
+    --space-4xl: 96px;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--wbs-dark);
+    color: var(--wbs-white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Navigation ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(35, 35, 35, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--wbs-border);
+    padding: var(--space-md) var(--space-2xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 28px;
+  }
+
+  .logo-text {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-xl);
+    list-style: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .nav-links a {
+    color: var(--wbs-white);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a:hover { color: var(--wbs-lime); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 92vh;
+    padding: var(--space-4xl) var(--space-2xl) var(--space-3xl);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(202, 241, 162, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: rgba(202, 241, 162, 0.1);
+    border: 1px solid rgba(202, 241, 162, 0.3);
+    color: var(--wbs-lime);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero-eyebrow .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--wbs-lime);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 5.5vw, 72px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero h1 .accent {
+    color: var(--wbs-lime);
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero p.lead {
+    font-size: 18px;
+    color: var(--wbs-text-muted);
+    max-width: 540px;
+    margin-bottom: var(--space-xl);
+    line-height: 1.6;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--wbs-lime);
+    color: var(--wbs-dark);
+    border: none;
+    padding: 16px 32px;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary:hover {
+    background: var(--wbs-lime-muted);
+    box-shadow: 0 4px 16px rgba(202, 241, 162, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--wbs-white);
+    border: 1px solid var(--wbs-border);
+    padding: 16px 32px;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--wbs-lime);
+    color: var(--wbs-lime);
+  }
+
+  /* ---------- Hero Visual ---------- */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .status-card {
+    background: var(--wbs-blue-grey);
+    border: 1px solid var(--wbs-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .status-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--wbs-border);
+  }
+
+  .status-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--wbs-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-card-meta { font-size: 12px; color: var(--wbs-text-muted); }
+
+  .site-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--wbs-border);
+  }
+
+  .site-row:last-child { border-bottom: none; }
+
+  .site-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .site-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .site-dot.ok { background: var(--wbs-lime); box-shadow: 0 0 12px rgba(202,241,162,0.6); }
+  .site-dot.warn { background: #F59E0B; }
+  .site-dot.down { background: #EF4444; animation: pulse 1.2s ease-in-out infinite; }
+
+  .site-name { font-size: 14px; font-weight: 600; }
+  .site-url { font-size: 11px; color: var(--wbs-text-muted); margin-top: 2px; }
+  .site-status { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); }
+  .site-status.ok { background: rgba(202,241,162,0.15); color: var(--wbs-lime); }
+  .site-status.warn { background: rgba(245,158,11,0.15); color: #F59E0B; }
+  .site-status.down { background: rgba(239,68,68,0.15); color: #EF4444; }
+
+  .notification-bubble {
+    position: absolute;
+    bottom: -28px;
+    right: -32px;
+    background: var(--wbs-dark);
+    border: 1px solid rgba(202, 241, 162, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 14px 18px;
+    font-size: 13px;
+    width: 270px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: slideIn 0.6s ease-out 0.5s both;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .notification-bubble .channel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--wbs-lime);
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .notification-bubble .msg { color: var(--wbs-white); line-height: 1.5; font-size: 13px; }
+
+  /* ---------- Section ---------- */
+  section {
+    padding: var(--space-4xl) var(--space-2xl);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .section-eyebrow {
+    color: var(--wbs-lime);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-md);
+  }
+
+  .section-header h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    max-width: 720px;
+    margin: 0 auto var(--space-md);
+  }
+
+  .section-header p {
+    color: var(--wbs-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 17px;
+  }
+
+  /* ---------- Features ---------- */
+  .features-section { background: var(--wbs-blue-grey); max-width: none; }
+  .features-section .features-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .feature-card {
+    background: var(--wbs-dark);
+    border: 1px solid var(--wbs-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(202, 241, 162, 0.3);
+    transform: translateY(-4px);
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(202, 241, 162, 0.12);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .feature-icon svg { width: 24px; height: 24px; stroke: var(--wbs-lime); }
+
+  .feature-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+  }
+
+  .feature-card p { color: var(--wbs-text-muted); font-size: 14px; line-height: 1.6; }
+
+  /* ---------- Pricing ---------- */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-2xl);
+  }
+
+  .price-card {
+    background: var(--wbs-blue-grey);
+    border: 1px solid var(--wbs-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl) var(--space-xl);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .price-card.featured {
+    border: 2px solid var(--wbs-lime);
+    background: linear-gradient(180deg, rgba(202,241,162,0.08) 0%, var(--wbs-blue-grey) 100%);
+    transform: scale(1.03);
+  }
+
+  .price-card .badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--wbs-lime);
+    color: var(--wbs-dark);
+    padding: 4px 14px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .price-card .tier-name {
+    font-size: 14px;
+    color: var(--wbs-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+  }
+
+  .price-card .price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: var(--space-md);
+  }
+
+  .price-card .price .amount {
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .price-card .price .currency { font-size: 22px; color: var(--wbs-text-muted); }
+  .price-card .price .period { font-size: 14px; color: var(--wbs-text-muted); }
+
+  .price-card .description {
+    color: var(--wbs-text-muted);
+    font-size: 14px;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--wbs-border);
+    line-height: 1.5;
+  }
+
+  .price-card ul {
+    list-style: none;
+    margin-bottom: var(--space-xl);
+  }
+
+  .price-card li {
+    padding: 10px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .price-card li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23CAF1A2' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .price-card .btn-primary,
+  .price-card .btn-secondary { width: 100%; justify-content: center; }
+
+  /* ---------- Signup Section ---------- */
+  .signup-section {
+    background: linear-gradient(180deg, var(--wbs-dark) 0%, var(--wbs-blue-grey) 100%);
+    max-width: none;
+    padding: var(--space-4xl) var(--space-2xl);
+  }
+
+  .signup-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .signup-card {
+    background: var(--wbs-blue-grey);
+    border: 1px solid var(--wbs-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl);
+  }
+
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--wbs-border);
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--wbs-dark);
+    border: 1px solid var(--wbs-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--wbs-text-muted);
+    flex-shrink: 0;
+  }
+
+  .step.active .step-num {
+    background: var(--wbs-lime);
+    color: var(--wbs-dark);
+    border-color: var(--wbs-lime);
+  }
+
+  .step.complete .step-num {
+    background: rgba(202, 241, 162, 0.2);
+    border-color: var(--wbs-lime);
+    color: var(--wbs-lime);
+  }
+
+  .step-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--wbs-text-muted);
+  }
+
+  .step.active .step-label { color: var(--wbs-white); }
+  .step.complete .step-label { color: var(--wbs-lime); }
+
+  .step-line {
+    height: 1px;
+    flex: 0 0 24px;
+    background: var(--wbs-border);
+  }
+
+  .form-step h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    letter-spacing: -0.01em;
+  }
+
+  .form-step .step-desc {
+    color: var(--wbs-text-muted);
+    font-size: 14px;
+    margin-bottom: var(--space-xl);
+  }
+
+  /* Tier selection cards */
+  .tier-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .tier-option {
+    background: var(--wbs-dark);
+    border: 2px solid var(--wbs-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .tier-option:hover { border-color: rgba(202, 241, 162, 0.4); }
+  .tier-option.selected {
+    border-color: var(--wbs-lime);
+    background: rgba(202, 241, 162, 0.05);
+  }
+
+  .tier-option-info { flex: 1; }
+  .tier-option-name { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+  .tier-option-desc { font-size: 13px; color: var(--wbs-text-muted); line-height: 1.4; }
+
+  .tier-option-price { text-align: right; flex-shrink: 0; }
+  .tier-option-price .amt { font-size: 22px; font-weight: 600; }
+  .tier-option-price .per { font-size: 12px; color: var(--wbs-text-muted); }
+
+  .tier-option-radio {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--wbs-border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.2s ease;
+  }
+
+  .tier-option.selected .tier-option-radio { border-color: var(--wbs-lime); }
+  .tier-option.selected .tier-option-radio::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px; height: 10px;
+    background: var(--wbs-lime);
+    border-radius: 50%;
+  }
+
+  /* Form fields */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field.full { grid-column: 1 / -1; }
+
+  .form-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--wbs-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .form-field input,
+  .form-field select {
+    background: var(--wbs-dark);
+    border: 1px solid var(--wbs-border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    color: var(--wbs-white);
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+
+  .form-field input:focus,
+  .form-field select:focus {
+    outline: none;
+    border-color: var(--wbs-lime);
+    box-shadow: 0 0 0 3px rgba(202, 241, 162, 0.15);
+  }
+
+  /* Notification channel checkboxes */
+  .channel-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .channel-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--wbs-dark);
+    border: 1.5px solid var(--wbs-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .channel-checkbox:hover { border-color: rgba(202, 241, 162, 0.3); }
+  .channel-checkbox.checked {
+    border-color: var(--wbs-lime);
+    background: rgba(202, 241, 162, 0.06);
+  }
+
+  .channel-checkbox input { display: none; }
+
+  .channel-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(202, 241, 162, 0.1);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .channel-icon svg { width: 16px; height: 16px; stroke: var(--wbs-lime); fill: none; stroke-width: 1.8; }
+
+  .channel-info { flex: 1; }
+  .channel-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .channel-detail { font-size: 11px; color: var(--wbs-text-muted); }
+
+  /* Payment method radios */
+  .payment-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .payment-option {
+    background: var(--wbs-dark);
+    border: 2px solid var(--wbs-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .payment-option:hover { border-color: rgba(202, 241, 162, 0.3); }
+  .payment-option.selected {
+    border-color: var(--wbs-lime);
+    background: rgba(202, 241, 162, 0.05);
+  }
+
+  .payment-option-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+  .payment-option-name { font-size: 14px; font-weight: 600; }
+  .payment-option-desc { font-size: 12px; color: var(--wbs-text-muted); }
+  .recommend-tag {
+    background: rgba(202, 241, 162, 0.15);
+    color: var(--wbs-lime);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* SEPA notice */
+  .sepa-notice {
+    background: rgba(202, 241, 162, 0.06);
+    border: 1px solid rgba(202, 241, 162, 0.2);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-bottom: var(--space-md);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .sepa-notice svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--wbs-lime);
+    fill: none;
+    stroke-width: 2;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .sepa-notice-text { font-size: 13px; color: var(--wbs-text-muted); line-height: 1.5; }
+  .sepa-notice-text strong { color: var(--wbs-white); font-weight: 600; }
+
+  /* Form actions */
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--wbs-border);
+  }
+
+  .form-actions .btn-secondary { padding: 12px 24px; font-size: 14px; }
+  .form-actions .btn-primary { padding: 14px 28px; font-size: 14px; }
+
+  /* Order summary on review step */
+  .summary-block {
+    background: var(--wbs-dark);
+    border: 1px solid var(--wbs-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+
+  .summary-row.total {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--wbs-border);
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .summary-row .label { color: var(--wbs-text-muted); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding: var(--space-2xl);
+    border-top: 1px solid var(--wbs-border);
+    text-align: center;
+    color: var(--wbs-text-muted);
+    font-size: 13px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px) {
+    nav { padding: var(--space-md); }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: var(--space-2xl) var(--space-md); }
+    .hero-visual { margin-top: var(--space-xl); }
+    .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+    .price-card.featured { transform: none; }
+    .form-grid, .channel-options, .payment-options { grid-template-columns: 1fr; }
+    section { padding: var(--space-2xl) var(--space-md); }
+    .signup-card { padding: var(--space-lg); }
+    .stepper { overflow-x: auto; }
+    .step-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== Navigation ============== -->
+<nav>
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 951.98 748.46" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g1" x1="466.58" y1="441.8" x2="600.45" y2="515.28" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#454545"/><stop offset=".5" stop-color="#caf1a2"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="316.7" y1="442.7" x2="446.97" y2="512.04" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#454545"/><stop offset=".5" stop-color="#caf1a2"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#g1)" d="M470.13,476.54l27.41,57.01c1.59,3.3,4.92,5.4,8.58,5.4h23.3c23.98,0,39.73-25.05,29.34-46.66l-50.09-104.17-38.54,80.17c-1.25,2.61-1.25,5.65,0,8.25Z"/>
+      <path fill="#caf1a2" d="M659.83,217.78l-154.42,321.17h71.59c6.25,0,11.94-3.58,14.65-9.21l154.42-321.17h-71.59c-6.25,0-11.94,3.58-14.65,9.21Z"/>
+      <path fill="url(#g2)" d="M319.76,476.54l27.41,57.01c1.59,3.3,4.92,5.4,8.58,5.4h23.3c23.98,0,39.73-25.05,29.34-46.66l-50.09-104.17-38.54,80.17c-1.25,2.61-1.25,5.65,0,8.25Z"/>
+      <path fill="#caf1a2" d="M509.46,217.78l-154.42,321.17h71.59c6.25,0,11.94-3.58,14.65-9.21l154.42-321.17h-71.59c-6.25,0-11.94,3.58-14.65,9.21Z"/>
+      <path fill="#caf1a2" d="M445.58,208.57h-70.84c-6.25,0-11.94,3.58-14.65,9.21l-154.42,321.17h81.06l158.85-330.38Z"/>
+    </svg>
+    <div class="logo-text">woods<br>business<br>solutions</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Leistungen</a></li>
+    <li><a href="#pricing">Pakete</a></li>
+    <li><a href="#signup">Anmelden</a></li>
+  </ul>
+</nav>
+
+<!-- ============== Hero ============== -->
+<header class="hero">
+  <div class="hero-content">
+    <span class="hero-eyebrow"><span class="dot"></span>Live Monitoring · Echtzeit-Benachrichtigung</span>
+    <h1>Ihre Website. <br/><span class="accent">Geschützt rund um die Uhr.</span></h1>
+    <p class="lead">Updates, Backups und Sicherheitsüberwachung für Ihre WordPress-Websites — automatisiert, transparent und mit Echtzeit-Benachrichtigungen, sobald etwas nicht stimmt.</p>
+    <div class="hero-cta">
+      <a href="#signup" class="btn-primary">Jetzt starten →</a>
+      <a href="#features" class="btn-secondary">Mehr erfahren</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="status-card">
+      <div class="status-card-header">
+        <span class="status-card-title">Live Status</span>
+        <span class="status-card-meta">Aktualisiert vor 2 Min.</span>
+      </div>
+      <div class="site-row">
+        <div class="site-info">
+          <div class="site-dot ok"></div>
+          <div>
+            <div class="site-name">Michel Logistik</div>
+            <div class="site-url">michel-logistik.com</div>
+          </div>
+        </div>
+        <span class="site-status ok">Online</span>
+      </div>
+      <div class="site-row">
+        <div class="site-info">
+          <div class="site-dot ok"></div>
+          <div>
+            <div class="site-name">Truck Service</div>
+            <div class="site-url">truck-service.michel-logistik.com</div>
+          </div>
+        </div>
+        <span class="site-status ok">Online</span>
+      </div>
+      <div class="site-row">
+        <div class="site-info">
+          <div class="site-dot warn"></div>
+          <div>
+            <div class="site-name">Kraftfahrer Jobs</div>
+            <div class="site-url">kraftfahrer-jobs.michel-logistik.com</div>
+          </div>
+        </div>
+        <span class="site-status warn">Langsam</span>
+      </div>
+    </div>
+    <div class="notification-bubble">
+      <div class="channel">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp · 14:32
+      </div>
+      <div class="msg"><strong>Kathrin</strong>, Ihre Website <em>michel-logistik.com</em> ist wieder erreichbar. Ausfallzeit: 4 Min.</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============== Features ============== -->
+<section class="features-section" id="features">
+  <div class="features-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Was wir tun</div>
+      <h2>Vollständige Betreuung — Sie müssen sich um nichts kümmern.</h2>
+      <p>Drei Säulen, die zusammen für Ruhe sorgen: präventive Wartung, kontinuierliches Monitoring, sofortige Reaktion.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 7v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V7l-8-5z"/></svg>
+        </div>
+        <h3>Sicherheit & Firewall</h3>
+        <p>Wordfence Premium auf allen Websites — Echtzeit-Firewall, Malware-Schutz und Country Blocking gegen über 40.000 bekannte Angreifer.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.22-8.56"/><polyline points="21 4 12 13 8 9"/></svg>
+        </div>
+        <h3>Updates & Backups</h3>
+        <p>Monatlich automatisierte WordPress-, Plugin- und Theme-Updates. Backups vor jedem Eingriff. Jährliche Recovery-Tests.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.37 1.88.71 2.78a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.83.58 2.78.71A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <h3>Echtzeit-Benachrichtigungen</h3>
+        <p>WhatsApp, SMS, E-Mail oder Teams — Sie wählen, wie wir Sie informieren, sobald Ihre Website ausfällt oder wieder online ist.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Pricing ============== -->
+<section id="pricing">
+  <div class="section-header">
+    <div class="section-eyebrow">Pakete</div>
+    <h2>Wählen Sie Ihren Schutz.</h2>
+    <p>Transparente Jahrespreise. Keine versteckten Kosten. Jederzeit erweiterbar.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="tier-name">Care</div>
+      <div class="price">
+        <span class="amount">1.790</span>
+        <span class="currency">€</span>
+        <span class="period">/ Jahr</span>
+      </div>
+      <p class="description">Solide Grundlage für bis zu 3 Websites. Lizenzkosten zzgl.</p>
+      <ul>
+        <li>Wordfence Premium auf allen Websites</li>
+        <li>Monatliche Updates & Backups</li>
+        <li>Wöchentliche Log-Prüfung</li>
+        <li>E-Mail-Benachrichtigungen</li>
+        <li>Reaktionszeit: 1 Werktag</li>
+      </ul>
+      <a href="#signup" class="btn-secondary">Care wählen</a>
+    </div>
+    <div class="price-card featured">
+      <div class="badge">Beliebt</div>
+      <div class="tier-name">Care+</div>
+      <div class="price">
+        <span class="amount">2.990</span>
+        <span class="currency">€</span>
+        <span class="period">/ Jahr</span>
+      </div>
+      <p class="description">Erweiterte Betreuung mit Multi-Channel-Benachrichtigungen.</p>
+      <ul>
+        <li>Alles aus Care</li>
+        <li>WhatsApp, SMS, Teams & E-Mail</li>
+        <li>Monatliches Review-Gespräch</li>
+        <li>Bis zu 2h Content-Anpassungen / Monat</li>
+        <li>Reaktionszeit: 4 Stunden</li>
+      </ul>
+      <a href="#signup" class="btn-primary">Care+ wählen</a>
+    </div>
+    <div class="price-card">
+      <div class="tier-name">Response</div>
+      <div class="price">
+        <span class="amount">150</span>
+        <span class="currency">€</span>
+        <span class="period">/ Stunde</span>
+      </div>
+      <p class="description">Incident Response, Malware-Sanierung & individuelle Entwicklung.</p>
+      <ul>
+        <li>Sofort verfügbar</li>
+        <li>Malware-Bereinigung</li>
+        <li>Wiederherstellung & Forensik</li>
+        <li>Custom Development</li>
+        <li>Reaktionszeit: 1 Stunde</li>
+      </ul>
+      <a href="#signup" class="btn-secondary">Anfragen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Signup ============== -->
+<section class="signup-section" id="signup">
+  <div class="signup-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Anmeldung</div>
+      <h2>In wenigen Minuten startklar.</h2>
+      <p>Wir richten alles für Sie ein. Sie unterschreiben einmal — wir kümmern uns um den Rest.</p>
+    </div>
+
+    <div class="signup-card">
+      <!-- Stepper -->
+      <div class="stepper">
+        <div class="step complete"><div class="step-num">✓</div><div class="step-label">Paket</div></div>
+        <div class="step-line"></div>
+        <div class="step active"><div class="step-num">2</div><div class="step-label">Kontakt</div></div>
+        <div class="step-line"></div>
+        <div class="step"><div class="step-num">3</div><div class="step-label">Websites</div></div>
+        <div class="step-line"></div>
+        <div class="step"><div class="step-num">4</div><div class="step-label">Benachrichtigung</div></div>
+        <div class="step-line"></div>
+        <div class="step"><div class="step-num">5</div><div class="step-label">Zahlung</div></div>
+      </div>
+
+      <!-- Step 1: Tier (visual placeholder, would normally be conditional) -->
+      <div class="form-step" style="display:none">
+        <h3>Welches Paket passt zu Ihnen?</h3>
+        <p class="step-desc">Sie können das Paket später jederzeit wechseln.</p>
+        <div class="tier-options">
+          <div class="tier-option"><div class="tier-option-radio"></div><div class="tier-option-info"><div class="tier-option-name">Care</div><div class="tier-option-desc">Solide Basis für bis zu 3 Websites</div></div><div class="tier-option-price"><div class="amt">1.790 €</div><div class="per">/ Jahr</div></div></div>
+          <div class="tier-option selected"><div class="tier-option-radio"></div><div class="tier-option-info"><div class="tier-option-name">Care+ <span class="recommend-tag" style="margin-left:8px">Empfohlen</span></div><div class="tier-option-desc">Multi-Channel-Benachrichtigungen, Review-Gespräche</div></div><div class="tier-option-price"><div class="amt">2.990 €</div><div class="per">/ Jahr</div></div></div>
+        </div>
+      </div>
+
+      <!-- Step 2: Contact info (active) -->
+      <div class="form-step">
+        <h3>Ihre Kontaktdaten</h3>
+        <p class="step-desc">Wer ist unser Hauptansprechpartner?</p>
+        <div class="form-grid">
+          <div class="form-field"><label>Vorname</label><input type="text" placeholder="Kathrin" value="Kathrin"></div>
+          <div class="form-field"><label>Nachname</label><input type="text" placeholder="Hegger" value="Hegger"></div>
+          <div class="form-field full"><label>Unternehmen</label><input type="text" placeholder="Firma GmbH" value="Leopold Michel GmbH"></div>
+          <div class="form-field"><label>E-Mail</label><input type="email" placeholder="kathrin@firma.de"></div>
+          <div class="form-field"><label>Telefon</label><input type="tel" placeholder="+49 ..." value="+49 9324 ..."></div>
+          <div class="form-field full"><label>Straße & Hausnummer</label><input type="text" placeholder="Musterweg 1" value="Mainfrankenpark 29"></div>
+          <div class="form-field"><label>PLZ</label><input type="text" placeholder="00000" value="97337"></div>
+          <div class="form-field"><label>Ort</label><input type="text" placeholder="Stadt" value="Würzburg/Dettelbach"></div>
+        </div>
+      </div>
+
+      <!-- Step 4: Notification preferences (preview) -->
+      <div class="form-step" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
+        <h3>Wie sollen wir Sie benachrichtigen?</h3>
+        <p class="step-desc">Wählen Sie alle Kanäle, die für Sie passen. Sie können später Schwellenwerte und Ruhezeiten festlegen.</p>
+        <div class="channel-options">
+          <label class="channel-checkbox checked">
+            <input type="checkbox" checked>
+            <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="channel-info"><div class="channel-name">E-Mail</div><div class="channel-detail">kathrin@firma.de</div></div>
+          </label>
+          <label class="channel-checkbox checked">
+            <input type="checkbox" checked>
+            <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+            <div class="channel-info"><div class="channel-name">WhatsApp</div><div class="channel-detail">An die Telefonnummer oben</div></div>
+          </label>
+          <label class="channel-checkbox">
+            <input type="checkbox">
+            <div class="channel-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
+            <div class="channel-info"><div class="channel-name">SMS</div><div class="channel-detail">Auch ohne Datenverbindung</div></div>
+          </label>
+          <label class="channel-checkbox">
+            <input type="checkbox">
+            <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></div>
+            <div class="channel-info"><div class="channel-name">Microsoft Teams</div><div class="channel-detail">Direkt in Ihren Channel</div></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 5: Payment method (preview) -->
+      <div class="form-step" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
+        <h3>Wie möchten Sie zahlen?</h3>
+        <p class="step-desc">Jährliche Abrechnung, einmal im Voraus. Keine versteckten Gebühren.</p>
+
+        <div class="payment-options">
+          <div class="payment-option selected">
+            <div class="payment-option-header">
+              <span class="payment-option-name">SEPA-Lastschrift</span>
+              <span class="recommend-tag">Empfohlen</span>
+            </div>
+            <div class="payment-option-desc">Bequemer Einzug — kein manuelles Überweisen.</div>
+          </div>
+          <div class="payment-option">
+            <div class="payment-option-header">
+              <span class="payment-option-name">Rechnung & Überweisung</span>
+            </div>
+            <div class="payment-option-desc">14 Tage Zahlungsziel, manuelle Überweisung.</div>
+          </div>
+        </div>
+
+        <div class="sepa-notice">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div class="sepa-notice-text">
+            <strong>Sichere SEPA-Eingabe.</strong> Ihre Bankdaten werden über eine verschlüsselte Verbindung übertragen und niemals auf unseren Servern gespeichert. Das SEPA-Mandat wird elektronisch erteilt.
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field full"><label>Kontoinhaber</label><input type="text" placeholder="Wie auf der Bankkarte" value="Leopold Michel GmbH"></div>
+          <div class="form-field full"><label>IBAN</label><input type="text" placeholder="DE12 3456 7890 1234 5678 90"></div>
+          <div class="form-field full"><label>BIC <span style="color:var(--wbs-text-muted); font-weight: 400; text-transform: none; letter-spacing: 0">(optional bei deutscher IBAN)</span></label><input type="text" placeholder="BYLADEM1SWU"></div>
+        </div>
+
+        <!-- Order summary -->
+        <h3 style="margin-top: var(--space-xl); font-size: 17px">Zusammenfassung</h3>
+        <div class="summary-block" style="margin-top: var(--space-md)">
+          <div class="summary-row"><span class="label">Care+ Paket</span><span>2.990,00 €</span></div>
+          <div class="summary-row"><span class="label">Wordfence Premium (3 × 149 €)</span><span>447,00 €</span></div>
+          <div class="summary-row"><span class="label">Zwischensumme</span><span>3.437,00 €</span></div>
+          <div class="summary-row"><span class="label">19% MwSt.</span><span>653,03 €</span></div>
+          <div class="summary-row total"><span>Gesamt / Jahr</span><span>4.090,03 €</span></div>
+        </div>
+      </div>
+
+      <!-- Form actions -->
+      <div class="form-actions">
+        <a href="#" class="btn-secondary">← Zurück</a>
+        <a href="#" class="btn-primary">Vertrag abschließen →</a>
+      </div>
+    </div>
+
+    <p style="text-align: center; color: var(--wbs-text-muted); font-size: 13px; margin-top: var(--space-lg)">
+      Mit dem Abschluss akzeptieren Sie unsere AGB und Datenschutzerklärung. Kündigung jederzeit zum Vertragsende möglich.
+    </p>
+  </div>
+</section>
+
+<footer>
+  © 2026 WOODS Business Solutions (WBS) · John-Skilton Straße 22 · 97074 Würzburg
+</footer>
+
+<script>
+  // Tier option selection
+  document.querySelectorAll('.tier-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      opt.parentElement.querySelectorAll('.tier-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+  // Channel checkbox toggle
+  document.querySelectorAll('.channel-checkbox').forEach(cb => {
+    cb.addEventListener('click', (e) => {
+      e.preventDefault();
+      cb.classList.toggle('checked');
+      const inp = cb.querySelector('input');
+      if (inp) inp.checked = cb.classList.contains('checked');
+    });
+  });
+  // Payment option selection
+  document.querySelectorAll('.payment-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      opt.parentElement.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+</script>
+</body>
+</html>
