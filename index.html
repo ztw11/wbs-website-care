@@ -1284,7 +1284,7 @@
         <p class="step-desc">Eine Wordfence-Premium-Lizenz pro Website. Sie können später jederzeit weitere hinzufügen.</p>
         <div class="websites-stepper">
           <button type="button" class="websites-btn" id="websites-decrement" aria-label="Weniger">−</button>
-          <input type="number" name="anzahl_websites" id="anzahl-websites" value="3" min="1" max="50">
+          <input type="number" name="anzahl_websites" id="anzahl-websites" value="1" min="1" max="50">
           <button type="button" class="websites-btn" id="websites-increment" aria-label="Mehr">+</button>
           <span class="websites-suffix">Website(s) × 149 € Lizenz / Jahr</span>
         </div>
@@ -1360,13 +1360,13 @@
         </div>
 
         <!-- Payment summary — recomputed live by JS based on tier and website count -->
-        <h3 style="margin-top: var(--space-xl); font-size: 17px">Zahlungsübersicht <span id="summary-suffix" style="color:var(--wbs-text-muted); font-weight: 400; font-size: 13px; text-transform: none; letter-spacing: 0">— Care+ mit 3 Websites</span></h3>
+        <h3 style="margin-top: var(--space-xl); font-size: 17px">Zahlungsübersicht <span id="summary-suffix" style="color:var(--wbs-text-muted); font-weight: 400; font-size: 13px; text-transform: none; letter-spacing: 0">— Care+ mit 1 Website</span></h3>
         <div class="summary-block" style="margin-top: var(--space-md)">
           <div class="summary-row"><span class="label" id="summary-tier-label">Care+ Paket</span><span id="summary-tier-amount">2.990,00 €</span></div>
-          <div class="summary-row"><span class="label" id="summary-license-label">Wordfence Premium (3 × 149 €)</span><span id="summary-license-amount">447,00 €</span></div>
-          <div class="summary-row"><span class="label">Zwischensumme</span><span id="summary-subtotal">3.437,00 €</span></div>
-          <div class="summary-row"><span class="label">19% MwSt.</span><span id="summary-vat">653,03 €</span></div>
-          <div class="summary-row total"><span>Gesamt / Jahr</span><span id="summary-total">4.090,03 €</span></div>
+          <div class="summary-row"><span class="label" id="summary-license-label">Wordfence Premium (1 × 149 €)</span><span id="summary-license-amount">149,00 €</span></div>
+          <div class="summary-row"><span class="label">Zwischensumme</span><span id="summary-subtotal">3.139,00 €</span></div>
+          <div class="summary-row"><span class="label">19% MwSt.</span><span id="summary-vat">596,41 €</span></div>
+          <div class="summary-row total"><span>Gesamt / Jahr</span><span id="summary-total">3.735,41 €</span></div>
         </div>
         <p style="font-size: 12px; color: var(--wbs-text-muted); margin-top: var(--space-sm)">Der finale Betrag wird im individuellen Vertragsangebot ausgewiesen.</p>
       </div>
@@ -1417,7 +1417,7 @@
   function recomputeSummary() {
     const tier = (document.getElementById('hidden-paket')?.value) || 'Care+';
     const sitesEl = document.getElementById('anzahl-websites');
-    let sites = sitesEl ? parseInt(sitesEl.value || '1', 10) : 3;
+    let sites = sitesEl ? parseInt(sitesEl.value || '1', 10) : 1;
     if (isNaN(sites) || sites < 1) sites = 1;
     if (sites > 50) sites = 50;
     if (sitesEl) sitesEl.value = sites; // clamp the visible value too
