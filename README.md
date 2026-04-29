@@ -14,7 +14,7 @@ The signup form is wired to **[Formsubmit.co](https://formsubmit.co)**, a free n
 ### Configuration in `index.html`
 
 ```html
-<form action="https://formsubmit.co/zach@woods.consulting" method="POST">
+<form action="https://formsubmit.co/f2514e26345b02bcd70e1816d8f59fd3" method="POST">
   <input type="hidden" name="_subject" value="Neue WBS Website Care Anfrage">
   <input type="hidden" name="_template" value="table">
   <input type="hidden" name="_captcha" value="true">
@@ -23,6 +23,8 @@ The signup form is wired to **[Formsubmit.co](https://formsubmit.co)**, a free n
   ...
 </form>
 ```
+
+The hash `f2514e26345b02bcd70e1816d8f59fd3` is Formsubmit's opaque token that routes to **zach@woods.consulting**. Using the hash instead of the naked email keeps the address out of page source so it can't be harvested by spam scrapers.
 
 | Hidden field | Purpose |
 |---|---|
