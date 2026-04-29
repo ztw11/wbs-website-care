@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impressum — WBS Website Care</title>
+  <meta name="robots" content="index,follow">
+  <style>
+    :root {
+      --wbs-dark: #0F0F0F;
+      --wbs-bg: #181818;
+      --wbs-surface: #232323;
+      --wbs-lime: #CAF1A2;
+      --wbs-white: #FFFFFF;
+      --wbs-text: #E8E8E8;
+      --wbs-text-muted: #A0A0A0;
+      --wbs-border: rgba(255, 255, 255, 0.1);
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 300;
+      background: var(--wbs-bg);
+      color: var(--wbs-text);
+      line-height: 1.65;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .legal-header {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 15, 15, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--wbs-border);
+      padding: var(--space-md) var(--space-2xl);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+    }
+
+    .legal-header .brand {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--wbs-white);
+      text-decoration: none;
+    }
+
+    .legal-header .back-link {
+      font-size: 13px;
+      color: var(--wbs-text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .legal-header .back-link:hover { color: var(--wbs-lime); }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: var(--space-2xl);
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--wbs-white);
+      margin-bottom: var(--space-sm);
+    }
+
+    h1 .subtitle {
+      display: block;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--wbs-text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: var(--space-xs);
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--wbs-lime);
+      letter-spacing: -0.01em;
+      margin-top: var(--space-xl);
+      margin-bottom: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--wbs-border);
+    }
+
+    h2:first-of-type { padding-top: 0; border-top: none; margin-top: var(--space-xl); }
+
+    p { margin-bottom: var(--space-md); font-size: 15px; }
+
+    a { color: var(--wbs-lime); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .anbieter-box {
+      background: var(--wbs-surface);
+      border: 1px solid var(--wbs-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .anbieter-box .label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--wbs-text-muted);
+      margin-bottom: var(--space-xs);
+    }
+
+    .anbieter-box strong { color: var(--wbs-white); font-weight: 600; }
+
+    .placeholder-note {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(255, 200, 100, 0.12);
+      border: 1px solid rgba(255, 200, 100, 0.3);
+      color: #ffc864;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-left: var(--space-xs);
+    }
+
+    footer.site-footer {
+      padding: var(--space-2xl);
+      border-top: 1px solid var(--wbs-border);
+      color: var(--wbs-text-muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    footer.site-footer a {
+      color: var(--wbs-text-muted);
+      margin: 0 var(--space-sm);
+    }
+
+    footer.site-footer a:hover { color: var(--wbs-lime); }
+
+    @media (max-width: 720px) {
+      .legal-header { padding: var(--space-md); }
+      main { padding: var(--space-lg); }
+      h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="legal-header">
+    <a class="brand" href="/">WBS Website Care</a>
+    <a class="back-link" href="/">← Zurück zur Übersicht</a>
+  </header>
+
+  <main>
+    <h1>Impressum<span class="subtitle">Angaben gemäß § 5 TMG</span></h1>
+
+    <div class="anbieter-box">
+      <span class="label">Diensteanbieter</span>
+      <strong>Zachary Woods</strong><br>
+      WOODS Business Solutions (Einzelunternehmen)<br>
+      John-Skilton Straße 22, 1. Stock<br>
+      97074 Würzburg<br>
+      Deutschland
+    </div>
+
+    <h2>Kontakt</h2>
+    <p>
+      Telefon: <a href="tel:+499318709897">+49 (0) 931 8709 89 77</a><br>
+      E-Mail: <a href="mailto:info@woods.consulting">info@woods.consulting</a><br>
+      Web: <a href="https://woods.consulting">https://woods.consulting</a>
+    </p>
+
+    <h2>Umsatzsteuer-Identifikationsnummer</h2>
+    <p>
+      Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br>
+      <strong>DE&nbsp;XXX&nbsp;XXX&nbsp;XXX</strong>
+      <span class="placeholder-note">Platzhalter — bitte echte USt-ID einsetzen</span>
+    </p>
+
+    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>
+      Zachary Woods<br>
+      John-Skilton Straße 22, 1. Stock<br>
+      97074 Würzburg
+    </p>
+
+    <h2>EU-Streitschlichtung</h2>
+    <p>
+      Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+      <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.
+      Unsere E-Mail-Adresse finden Sie oben im Impressum.
+    </p>
+
+    <h2>Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
+    <p>
+      Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+      Verbraucherschlichtungsstelle teilzunehmen.
+    </p>
+
+    <h2>Haftung für Inhalte</h2>
+    <p>
+      Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten
+      nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als
+      Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde
+      Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige
+      Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von
+      Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine
+      diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten
+      Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen
+      werden wir diese Inhalte umgehend entfernen.
+    </p>
+
+    <h2>Haftung für Links</h2>
+    <p>
+      Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen
+      Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.
+      Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der
+      Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf
+      mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der
+      Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist
+      jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden
+      von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+    </p>
+
+    <h2>Urheberrecht</h2>
+    <p>
+      Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen
+      dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art
+      der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen
+      Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind
+      nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf
+      dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter
+      beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie
+      trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen
+      entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige
+      Inhalte umgehend entfernen.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    © 2026 WOODS Business Solutions · Inhaber Zachary Woods · John-Skilton Straße 22 · 97074 Würzburg
+    &nbsp;·&nbsp;
+    <a href="/impressum.html">Impressum</a> · <a href="/agb.html">AGB</a> · <a href="/datenschutz.html">Datenschutz</a>
+  </footer>
+</body>
+</html>

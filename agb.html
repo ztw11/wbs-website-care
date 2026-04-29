@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGB — WBS Website Care</title>
+  <meta name="robots" content="index,follow">
+  <style>
+    :root {
+      --wbs-dark: #0F0F0F;
+      --wbs-bg: #181818;
+      --wbs-surface: #232323;
+      --wbs-lime: #CAF1A2;
+      --wbs-white: #FFFFFF;
+      --wbs-text: #E8E8E8;
+      --wbs-text-muted: #A0A0A0;
+      --wbs-border: rgba(255, 255, 255, 0.1);
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 300;
+      background: var(--wbs-bg);
+      color: var(--wbs-text);
+      line-height: 1.65;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .legal-header {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 15, 15, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--wbs-border);
+      padding: var(--space-md) var(--space-2xl);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+    }
+
+    .legal-header .brand {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--wbs-white);
+      text-decoration: none;
+    }
+
+    .legal-header .brand .accent { color: var(--wbs-lime); }
+
+    .legal-header .back-link {
+      font-size: 13px;
+      color: var(--wbs-text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .legal-header .back-link:hover { color: var(--wbs-lime); }
+
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: var(--space-2xl);
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--wbs-white);
+      margin-bottom: var(--space-sm);
+    }
+
+    h1 .subtitle {
+      display: block;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--wbs-text-muted);
+      letter-spacing: 0;
+      text-transform: none;
+      margin-top: var(--space-xs);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--wbs-lime);
+      letter-spacing: -0.01em;
+      margin-top: var(--space-2xl);
+      margin-bottom: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--wbs-border);
+    }
+
+    h2:first-of-type { padding-top: 0; border-top: none; }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--wbs-white);
+      margin-top: var(--space-lg);
+      margin-bottom: var(--space-sm);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    p { margin-bottom: var(--space-md); font-size: 15px; }
+
+    ul, ol {
+      margin-bottom: var(--space-md);
+      margin-left: var(--space-lg);
+      font-size: 15px;
+    }
+
+    li { margin-bottom: var(--space-xs); }
+
+    .stand {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(202, 241, 162, 0.1);
+      border: 1px solid rgba(202, 241, 162, 0.25);
+      color: var(--wbs-lime);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-xl);
+    }
+
+    .anbieter-box {
+      background: var(--wbs-surface);
+      border: 1px solid var(--wbs-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .anbieter-box .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--wbs-text-muted);
+      margin-bottom: var(--space-xs);
+    }
+
+    .anbieter-box strong { color: var(--wbs-white); font-weight: 600; }
+    .anbieter-box a { color: var(--wbs-lime); text-decoration: none; }
+    .anbieter-box a:hover { text-decoration: underline; }
+
+    .surcharge-table {
+      width: 100%;
+      margin: var(--space-md) 0;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .surcharge-table th, .surcharge-table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--wbs-border);
+    }
+
+    .surcharge-table th {
+      background: var(--wbs-surface);
+      font-weight: 600;
+      color: var(--wbs-lime);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .surcharge-table td.zuschlag {
+      text-align: right;
+      font-weight: 600;
+      color: var(--wbs-white);
+    }
+
+    .surcharge-table td.timeframe {
+      color: var(--wbs-text-muted);
+      font-size: 13px;
+    }
+
+    site-footer, footer.site-footer {
+      padding: var(--space-2xl);
+      border-top: 1px solid var(--wbs-border);
+      color: var(--wbs-text-muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    footer.site-footer a {
+      color: var(--wbs-text-muted);
+      text-decoration: none;
+      margin: 0 var(--space-sm);
+    }
+
+    footer.site-footer a:hover { color: var(--wbs-lime); }
+
+    @media (max-width: 720px) {
+      .legal-header { padding: var(--space-md); }
+      main { padding: var(--space-lg); }
+      h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="legal-header">
+    <a class="brand" href="/">WBS Website Care</a>
+    <a class="back-link" href="/">← Zurück zur Übersicht</a>
+  </header>
+
+  <main>
+    <span class="stand">Stand: April 2026</span>
+    <h1>Allgemeine Geschäftsbedingungen<span class="subtitle">WBS Website Care — ein Service der WOODS Business Solutions</span></h1>
+
+    <div class="anbieter-box">
+      <div class="label">Anbieterin</div>
+      <strong>WOODS Business Solutions</strong> — Einzelunternehmen<br>
+      Inhaber: Zachary Woods<br>
+      John-Skilton Straße 22, 1. Stock<br>
+      97074 Würzburg, Deutschland<br>
+      Telefon: <a href="tel:+499318709897">+49 (0) 931 8709 89 77</a><br>
+      E-Mail: <a href="mailto:info@woods.consulting">info@woods.consulting</a><br>
+      Web: <a href="https://woods.consulting">https://woods.consulting</a>
+    </div>
+
+    <h2>§ 1 Anbieter / Geltungsbereich</h2>
+    <p>(1) Die nachfolgenden AGB gelten für sämtliche Verträge zwischen WOODS Business Solutions, Inhaber Zachary Woods, John-Skilton Straße 22, 1. Stock, 97074 Würzburg (im Folgenden „WBS") und dem Kunden über die unter dem Markennamen „WBS Website Care" angebotenen Dienstleistungen, insbesondere die Pakete „Care", „Care+" und „Response".</p>
+    <p>(2) Allgemeine Geschäftsbedingungen des Kunden finden grundsätzlich keine Anwendung, auch wenn in Bestellungen oder sonstigen Unterlagen auf sie Bezug genommen wird und WBS im Einzelfall ihrer Geltung nicht ausdrücklich widerspricht.</p>
+
+    <h2>§ 2 Vertragsschluss</h2>
+    <p>(1) Die Darstellung der Leistungen auf <a style="color:var(--wbs-lime)" href="https://care.woods.consulting/">https://care.woods.consulting/</a> stellt kein verbindliches Angebot von WBS dar.</p>
+    <p>(2) Mit Absenden des Online-Beauftragungsformulars und Bestätigung der Pflicht-Checkbox „Verbindlich beauftragen" gibt der Kunde ein verbindliches Angebot zum Abschluss eines Dienstleistungsvertrags ab.</p>
+    <p>(3) Der Vertrag kommt zustande mit der schriftlichen oder elektronischen Auftragsbestätigung von WBS, spätestens jedoch mit Beginn der Leistungserbringung.</p>
+
+    <h2>§ 3 Leistungsbeschreibung</h2>
+    <p>(1) WBS erbringt unter dem Markennamen „WBS Website Care" Dienstleistungen rund um Verwaltung, Sicherung und Betreuung von WordPress-Websites. Diese gliedern sich in folgende Pakete:</p>
+
+    <h3>Care</h3>
+    <ul>
+      <li>Installation und Pflege von Wordfence Premium</li>
+      <li>Regelmäßige Aktualisierungen von WordPress-Core, Plugins und Themes</li>
+      <li>Backups gemäß Paketbeschreibung</li>
+      <li>Sicherheits-Monitoring und E-Mail-Benachrichtigungen</li>
+      <li>Reaktionszeiten gemäß Paketbeschreibung</li>
+    </ul>
+
+    <h3>Care+</h3>
+    <ul>
+      <li>Sämtliche Leistungen aus „Care"</li>
+      <li>Multi-Channel-Benachrichtigungen (WhatsApp, SMS, E-Mail)</li>
+      <li>Bis zu zwei Stunden Content-Anpassungen pro Monat</li>
+      <li>Verkürzte Reaktionszeiten</li>
+    </ul>
+
+    <h3>Response</h3>
+    <ul>
+      <li>Stundenweise abgerechnete Incident-Response-Leistungen, insbesondere Malware-Sanierung, Wiederherstellung und forensische Analyse</li>
+    </ul>
+
+    <p>(2) Der jeweilige Leistungsumfang ergibt sich aus der Paketbeschreibung im Online-Formular zum Zeitpunkt der Beauftragung sowie aus der Auftragsbestätigung. Im Konflikt geht die Auftragsbestätigung vor.</p>
+    <p>(3) Die Leistungen werden nach dem Stand der Technik mit der Sorgfalt eines ordentlichen Kaufmanns erbracht. Es handelt sich um Dienst-, nicht um Werkleistungen; ein bestimmter Erfolg wird, soweit nicht ausdrücklich vereinbart, nicht geschuldet.</p>
+
+    <h2>§ 4 Kostensatz / Servicezeiten</h2>
+    <p>(1) Die Vergütung der Pakete „Care" und „Care+" ergibt sich aus dem im Online-Formular gewählten Paket zuzüglich Lizenzgebühren für Wordfence Premium in Höhe von 149,00 € pro Website pro Vertragsjahr. Sämtliche Beträge zuzüglich der jeweils gültigen gesetzlichen Umsatzsteuer.</p>
+    <p>(2) Im Paket „Response" sowie für sonstige stundenweise erbrachte Leistungen legt WBS einen Stundensatz von 150,00 € (netto) zugrunde. Ein Personentag entspricht acht Arbeitsstunden.</p>
+    <p>(3) Reise- und Übernachtungskosten sowie Verpflegungsmehraufwendungen trägt der Kunde, sofern nicht anders vereinbart:</p>
+    <ul>
+      <li>PKW: Pauschale 0,60 € pro gefahrenem Kilometer pro Fahrzeug</li>
+      <li>An- und Abreise per Bahn sowie Verpflegung: zu steuerlich zulässigen Pauschalbeträgen, gegen Nachweis</li>
+      <li>Reisezeit: 50,00 € pro Stunde pro Mitarbeiter</li>
+    </ul>
+    <p>(4) Die Leistungserbringung erfolgt während der Standard-Servicezeit Montag bis Freitag, 08:00 bis 20:00 Uhr (acht Stunden pro Werktag).</p>
+    <p>(5) Für Leistungen auf ausdrückliche Anforderung des Kunden außerhalb der Standard-Servicezeit gelten folgende Zuschläge auf den Stundensatz, sofern WBS die Ursache nicht zu vertreten hat:</p>
+
+    <table class="surcharge-table">
+      <thead>
+        <tr><th>Sonderzeiten</th><th>Zeitfenster</th><th style="text-align:right">Zuschlag</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Nachtarbeit</td><td class="timeframe">20:00 – 08:00 Uhr</td><td class="zuschlag">50 %</td></tr>
+        <tr><td>Samstagsarbeit</td><td class="timeframe">08:00 – 18:00 Uhr</td><td class="zuschlag">50 %</td></tr>
+        <tr><td></td><td class="timeframe">18:00 – 08:00 Uhr</td><td class="zuschlag">75 %</td></tr>
+        <tr><td>Sonntagsarbeit</td><td class="timeframe">08:00 – 18:00 Uhr</td><td class="zuschlag">75 %</td></tr>
+        <tr><td></td><td class="timeframe">18:00 – 08:00 Uhr</td><td class="zuschlag">100 %</td></tr>
+        <tr><td>Gesetzliche Feiertage</td><td class="timeframe">00:00 – 24:00 Uhr</td><td class="zuschlag">125 %</td></tr>
+        <tr><td>Heiligabend / Silvester</td><td class="timeframe">14:00 – 24:00 Uhr</td><td class="zuschlag">150 %</td></tr>
+        <tr><td>25.12., 26.12., 1.1. und 1.5.</td><td class="timeframe">00:00 – 24:00 Uhr</td><td class="zuschlag">150 %</td></tr>
+      </tbody>
+    </table>
+
+    <h2>§ 5 Zahlungsbedingungen</h2>
+    <p>(1) Die Vergütung für die Pakete „Care" und „Care+" wird im Voraus für das jeweilige Vertragsjahr berechnet und fällig.</p>
+    <p>(2) Stundenweise erbrachte Leistungen (insbesondere „Response") werden monatlich nachträglich abgerechnet.</p>
+    <p>(3) Die Zahlung erfolgt nach Wahl des Kunden:</p>
+    <ol style="list-style: lower-alpha">
+      <li>per SEPA-Lastschriftmandat (Einzug binnen 14 Tagen nach Auftragsbestätigung; Mandat wird gesondert erteilt), oder</li>
+      <li>per Rechnung (Zahlungsziel 14 Tage netto ab Rechnungsdatum).</li>
+    </ol>
+    <p>(4) Bei Zahlungsverzug gelten die gesetzlichen Verzugszinsen. WBS ist berechtigt, die Leistungserbringung nach Mahnung mit angemessener Fristsetzung einzustellen.</p>
+    <p>(5) Aufrechnungs- und Zurückbehaltungsrechte stehen dem Kunden nur zu, soweit seine Gegenansprüche rechtskräftig festgestellt oder unbestritten sind.</p>
+    <p>(6) Lizenzkosten Dritter (insbesondere Wordfence Premium) können sich während der Vertragslaufzeit ändern. Preisänderungen werden mit einer Frist von 30 Tagen vor Wirksamwerden in Textform angekündigt.</p>
+
+    <h2>§ 6 Vertragsdauer</h2>
+    <p>(1) Verträge über die Pakete „Care" und „Care+" werden mit einer Mindestlaufzeit von 12 Monaten ab Datum der Auftragsbestätigung abgeschlossen.</p>
+    <p>(2) Der Vertrag verlängert sich automatisch um jeweils weitere 12 Monate, sofern er nicht mit einer Frist von 3 Monaten zum jeweiligen Vertragsende von einer der Vertragsparteien in Textform (E-Mail genügt) gekündigt wird.</p>
+    <p>(3) Erweiterungen der Anzahl betreuter Websites sind jederzeit nach Abstimmung möglich. Reduktionen sind mit 3 Monaten Frist zum Vertragsende möglich.</p>
+    <p>(4) Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt unberührt. Ein wichtiger Grund liegt für WBS insbesondere bei Zahlungsverzug von mehr als 30 Tagen nach Mahnung vor.</p>
+
+    <h2>§ 7 Allgemeine Voraussetzungen für die Leistungserbringung</h2>
+    <p>(1) Der Kunde ist verpflichtet, WBS bei der Vertragserfüllung unentgeltlich auf Anforderung unverzüglich zu unterstützen. Die Mitwirkungspflichten des Kunden sind Hauptleistungspflichten.</p>
+    <p>(2) Der Kunde stellt rechtzeitig sämtliche für die Leistungserbringung erforderlichen Voraussetzungen bereit, insbesondere SFTP/SSH-Zugang, WordPress-Administrator-Konten, Hosting-Verwaltungszugang sowie alle weiteren relevanten Konfigurations- und Zugangsinformationen.</p>
+    <p>(3) Der Kunde gewährleistet, dass er Inhaber oder berechtigter Nutzer der zu betreuenden Websites ist und dass alle eingesetzten Plugins, Themes und Inhalte rechtmäßig erworben und ordnungsgemäß lizenziert sind. Der Kunde stellt WBS von Ansprüchen Dritter aus diesem Grund frei.</p>
+    <p>(4) Vor Beginn der Leistungserbringung benennt der Kunde eine zentrale Ansprechperson, die für die Koordination mit WBS verantwortlich ist und verbindliche Entscheidungen für den Kunden treffen kann.</p>
+    <p>(5) Geschieht die Mitwirkung nicht plangemäß und entstehen dadurch Verzögerungen oder Mehraufwand, kann WBS — unbeschadet weitergehender gesetzlicher Rechte — Änderungen des Zeitplans, der Mengen und der Preise verlangen. Davon unberührt gilt die Regelung des § 615 BGB.</p>
+
+    <h2>§ 8 Haftung von WBS auf Schadensersatz</h2>
+    <p>(1) WBS haftet unbeschränkt nach den gesetzlichen Bestimmungen nur auf Ersatz für Schäden, die auf Vorsatz beruhen, einschließlich von Vorsatz ihrer gesetzlichen Vertreter oder Erfüllungsgehilfen.</p>
+    <p>(2) WBS haftet bei grober Fahrlässigkeit oder beim Fehlen einer Beschaffenheit, für die WBS eine schriftliche Garantie übernommen hat, nur in Höhe des vorhersehbaren Schadens, der durch die verletzte Pflicht oder Garantie verhindert werden sollte.</p>
+    <p>(3) Schadensersatzansprüche – gleich aus welchem Rechtsgrund – sowie Ansprüche auf Ersatz vergeblicher Aufwendungen gegen WBS, die leichte Fahrlässigkeit voraussetzen, bestehen nur, wenn eine wesentliche Vertragspflicht (Kardinalpflicht) verletzt worden ist. Eine Kardinalpflicht ist eine Pflicht, deren Erfüllung die ordnungsgemäße Durchführung des Vertrages überhaupt erst ermöglicht und auf deren Einhaltung der Vertragspartner regelmäßig vertrauen darf. Die Haftung für leichte Fahrlässigkeit ist je Schadensfall auf den vorhersehbaren, typischerweise eintretenden Schaden beschränkt. WBS haftet bis zur Höhe des an WBS gezahlten Jahreswertes der Leistungen, bei deren Durchführung der Schaden entstanden ist. Die Haftung für entgangenen Gewinn ist ausgeschlossen.</p>
+    <p>(4) WBS übernimmt keine Haftung für Schäden und Nachteile, die daraus entstehen, dass eine EDV-Anlage oder ein Teil davon zu Installations- oder Wartungszwecken während der produktiven Zeit des Kunden ausgeschaltet oder in sonstiger Weise beeinträchtigt werden muss. Der Kunde kann auf eigene Verantwortung ausdrücklich verlangen, dass WBS geschuldete Reparatur- oder Wartungsarbeiten zu bestimmten Zeiten nicht vornimmt.</p>
+    <p>(5) Der Kunde ist verpflichtet, in angemessenen Abständen, jedoch mindestens einmal pro Tag, Sicherungskopien von seinen Daten anzufertigen. Eine Verletzung dieser Pflicht gilt als Mitverschulden. Backups durch WBS ersetzen nicht diese Sorgfaltspflicht.</p>
+    <p>(6) Die Haftungsbegrenzungen gelten nicht bei Personenschäden sowie bei der Haftung nach dem Produkthaftungsgesetz. Sie gelten ebenfalls nicht, soweit Schäden durch die Betriebshaftpflichtversicherung von WBS übernommen werden. WBS verpflichtet sich, die bei Vertragsabschluss bestehende Deckung aufrechtzuerhalten.</p>
+    <p>(7) Schadensersatzansprüche sowie Ansprüche auf Ersatz vergeblicher Aufwendungen des Kunden gegen WBS verjähren in einem Jahr ab dem gesetzlichen Verjährungsbeginn. Diese Verkürzung gilt nicht für die Haftung bei Vorsatz, grober Fahrlässigkeit, einschließlich von Vorsatz und grober Fahrlässigkeit der gesetzlichen Vertreter oder Erfüllungsgehilfen, bei Personenschäden oder bei der Haftung nach dem Produkthaftungsgesetz.</p>
+    <p>(8) WBS haftet nicht für Schäden, die durch Drittsoftware (Plugins, Themes), Hosting-Anbieter, externe Dienste oder Eingriffe unbefugter Dritter verursacht werden.</p>
+
+    <h2>§ 9 Vertraulichkeit</h2>
+    <p>(1) Die Vertragspartner verpflichten sich gegenseitig, alle schriftlichen, verbalen und gegenständlichen Informationen, insbesondere technische und wirtschaftliche Informationen sowie Absichten, Erfahrungen, Erkenntnisse, Konstruktionen, Unterlagen und Musterteile, die ihnen während der Laufzeit dieser Vereinbarung von der jeweils anderen Seite zugänglich gemacht werden oder die sie erhalten, vertraulich zu behandeln, Dritten nicht zugänglich zu machen, vor dem Zugriff Dritter zu schützen, nur für Zwecke im Rahmen der Erfüllung dieses Vertrages und seiner Anlagen zu verwenden und nur an Mitarbeiter weiterzugeben, die zur Einhaltung der Vertraulichkeit verpflichtet sind.</p>
+    <p>(2) Die Informationen dürfen verbundenen Unternehmen im Sinne von § 15 AktG offenbart werden, vorausgesetzt, dass diese verbundenen Unternehmen sich zu entsprechender Vertraulichkeit verpflichten.</p>
+    <p>(3) Die Vertraulichkeitsverpflichtung gilt nicht hinsichtlich von Informationen,</p>
+    <ul>
+      <li>die der jeweils anderen Seite nachweislich bereits zuvor bekannt waren,</li>
+      <li>die die jeweils andere Seite nachweislich rechtmäßig von Dritten ohne Auferlegung einer Vertraulichkeitsverpflichtung erhält,</li>
+      <li>die allgemein bekannt sind oder ohne Verstoß gegen die in diesem Vertrag enthaltenen Verpflichtungen allgemein bekannt werden,</li>
+      <li>die sich die jeweils andere Seite nachweislich im Rahmen eigener unabhängiger Entwicklungen erarbeitet hat.</li>
+    </ul>
+    <p>(4) Die Vertragspartner werden bei der vertraulichen Behandlung der Informationen die gleiche Sorgfalt anwenden wie bei der Behandlung eigener vertraulicher Informationen.</p>
+
+    <h2>§ 10 Abwerbeverbot</h2>
+    <p>(1) Die Vertragspartner haben alles zu unterlassen, was das Ausscheiden eines Mitarbeiters der jeweils anderen Partei zur Folge haben könnte. Mit „Mitarbeiter" sind sowohl Arbeitnehmer der anderen Seite gemeint als auch Dritte, die für die jeweils andere Seite tätig sind, oder, sofern die andere Seite selbst als Subunternehmer am Markt tätig ist, Arbeitnehmer oder Dritte, die für deren Kunden tätig sind. Hiervon umfasst sind insbesondere Abwerbeversuche oder sonstige Versuche, mit den Mitarbeitern der anderen Partei ein Arbeitsverhältnis einzugehen.</p>
+    <p>(2) Bei Verstoß gegen das Abwerbeverbot wird eine Vertragsstrafe von 20.000,00 EUR für jeden Fall der Abwerbung vereinbart. Diese Vertragsstrafe ist nur dann nicht zu zahlen, wenn es der abwerbenden Partei gelingt, nachzuweisen, dass das Arbeitsverhältnis zu dem betreffenden Mitarbeiter nicht aufgrund von Abwerbeversuchen ihrerseits zustande gekommen ist.</p>
+    <p>(3) Dieses Abwerbeverbot mit der hier geregelten Vertragsstrafe gilt auch über die Laufzeit dieses Vertrages hinaus für einen zusätzlichen Zeitraum von 24 Monaten.</p>
+
+    <h2>§ 11 Datenschutz</h2>
+    <p>(1) WBS verarbeitet personenbezogene Daten des Kunden gemäß der Datenschutzerklärung, abrufbar unter <a style="color:var(--wbs-lime)" href="/datenschutz.html">https://care.woods.consulting/datenschutz.html</a>.</p>
+    <p>(2) Soweit WBS im Auftrag des Kunden personenbezogene Daten Dritter verarbeitet, schließen die Parteien einen gesonderten Auftragsverarbeitungsvertrag (AVV) gemäß Art. 28 DSGVO, der dieser Vereinbarung vorgeht.</p>
+
+    <h2>§ 12 Widerrufsrecht für Verbraucher</h2>
+    <p>Sofern der Kunde Verbraucher im Sinne von § 13 BGB ist, steht ihm ein gesetzliches Widerrufsrecht nach §§ 312g, 355 BGB zu. Eine gesonderte Widerrufsbelehrung mit Muster-Widerrufsformular wird im Bestellprozess sowie mit der Auftragsbestätigung übermittelt.</p>
+
+    <h2>§ 13 Weitere Vereinbarungen</h2>
+    <p>(1) Änderungen und Ergänzungen dieses Vertrages sowie seiner wesentlichen Vertragsbestandteile bedürfen der Schriftform (Textform / E-Mail genügt) und müssen als solche ausdrücklich gekennzeichnet sein. Dies gilt auch für die Aufhebung des Schriftformerfordernisses.</p>
+    <p>(2) Auf diesen Vertrag findet ausschließlich das Recht der Bundesrepublik Deutschland Anwendung. Verweist dieses Recht auf ausländische Rechtsordnungen, so sind solche Verweisungen unwirksam. Die Anwendung des UN-Übereinkommens über Verträge über den internationalen Warenkauf (CISG) wird ausdrücklich ausgeschlossen.</p>
+    <p>(3) Die Vertragsparteien vereinbaren, dass — soweit gesetzlich zulässig — das Landgericht Nürnberg ausschließliche Zuständigkeit für alle Streitigkeiten aus oder im Zusammenhang mit diesem Vertrag und seinen wesentlichen Vertragsbestandteilen hat. WBS ist jedoch berechtigt, jedes andere zuständige Gericht anzurufen. Vor jedem Gerichtsverfahren sind die Vertragspartner gehalten, einen außergerichtlichen Bereinigungsversuch, ggf. unter Einschaltung fachkundiger Dritter, durchzuführen, es sei denn, dass ein solcher Versuch als nicht erfolgversprechend erscheint.</p>
+    <p>(4) WBS kann den Namen des Kunden in ihre Kundenliste aufnehmen. Der Kunde steht nach Absprache als aktiver Referenzkunde zur Verfügung.</p>
+    <p>(5) Sollten einzelne Bestimmungen dieser AGB unwirksam sein oder sollten diese AGB Lücken enthalten, wird dadurch die Wirksamkeit der übrigen Bestimmungen nicht berührt. Anstelle der unwirksamen Bestimmung gilt diejenige wirksame Bestimmung als vereinbart, welche dem Sinn und Zweck der unwirksamen Bestimmung entspricht und dem wirtschaftlichen Gehalt der zu ersetzenden Bestimmung am nächsten kommt. Im Fall von Lücken gilt diejenige Bestimmung als vereinbart, die dem entspricht, was nach Sinn und Zweck dieser AGB vernünftigerweise vereinbart worden wäre, hätte man die Angelegenheit von vornherein bedacht.</p>
+  </main>
+
+  <footer class="site-footer">
+    © 2026 WOODS Business Solutions · Inhaber Zachary Woods · John-Skilton Straße 22 · 97074 Würzburg
+    &nbsp;·&nbsp;
+    <a href="/impressum.html">Impressum</a> · <a href="/agb.html">AGB</a> · <a href="/datenschutz.html">Datenschutz</a>
+  </footer>
+</body>
+</html>

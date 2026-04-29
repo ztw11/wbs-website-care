@@ -976,6 +976,24 @@
     font-size: 13px;
   }
 
+  .footer-links {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+
+  .footer-links a {
+    color: var(--wbs-text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: var(--wbs-lime); }
+
+  .footer-links .dot-separator {
+    margin: 0 var(--space-sm);
+    color: var(--wbs-border);
+  }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 880px) {
     nav { padding: var(--space-md); }
@@ -1375,7 +1393,7 @@ https://woods.consulting">
         <label class="agreement-checkbox">
           <input type="checkbox" name="agb_akzeptiert" value="ja" required>
           <span class="agreement-text">
-            Ich erteile hiermit <strong>verbindlich</strong> den Auftrag entsprechend der oben gewählten Optionen und akzeptiere die <a href="#agb" target="_blank">Allgemeinen Geschäftsbedingungen</a> sowie die <a href="#datenschutz" target="_blank">Datenschutzerklärung</a>. Ich bestätige, dass es sich um eine kostenpflichtige, mindestens 12-monatige Beauftragung handelt.
+            Ich erteile hiermit <strong>verbindlich</strong> den Auftrag entsprechend der oben gewählten Optionen und akzeptiere die <a href="/agb.html" target="_blank">Allgemeinen Geschäftsbedingungen</a> sowie die <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a>. Ich bestätige, dass es sich um eine kostenpflichtige, mindestens 12-monatige Beauftragung handelt.
           </span>
         </label>
       </div>
@@ -1394,7 +1412,14 @@ https://woods.consulting">
 </section>
 
 <footer>
-  © 2026 WOODS Business Solutions (WBS) · John-Skilton Straße 22 · 97074 Würzburg
+  <div style="margin-bottom: 8px">© 2026 WOODS Business Solutions · Inhaber Zachary Woods · John-Skilton Straße 22 · 97074 Würzburg</div>
+  <div class="footer-links">
+    <a href="/impressum.html">Impressum</a>
+    <span class="dot-separator">·</span>
+    <a href="/agb.html">AGB</a>
+    <span class="dot-separator">·</span>
+    <a href="/datenschutz.html">Datenschutz</a>
+  </div>
 </footer>
 
 <script>
