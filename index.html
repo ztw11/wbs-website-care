@@ -844,6 +844,64 @@
 
   .summary-row .label { color: var(--wbs-text-muted); }
 
+  /* Websites count stepper */
+  .websites-stepper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .websites-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--wbs-border);
+    background: var(--wbs-dark);
+    color: var(--wbs-white);
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .websites-btn:hover {
+    border-color: var(--wbs-lime);
+    color: var(--wbs-lime);
+  }
+
+  .websites-btn:active { transform: scale(0.95); }
+
+  #anzahl-websites {
+    width: 80px;
+    height: 44px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    background: var(--wbs-dark);
+    color: var(--wbs-white);
+    border: 1px solid var(--wbs-border);
+    border-radius: var(--radius-md);
+    -moz-appearance: textfield;
+  }
+
+  #anzahl-websites::-webkit-outer-spin-button,
+  #anzahl-websites::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .websites-suffix {
+    color: var(--wbs-text-muted);
+    font-size: 14px;
+    margin-left: var(--space-sm);
+  }
+
   /* ---------- Footer ---------- */
   footer {
     padding: var(--space-2xl);
@@ -1024,7 +1082,7 @@
         <li>E-Mail-Benachrichtigungen</li>
         <li>Reaktionszeit: 1 Werktag</li>
       </ul>
-      <a href="#signup" class="btn-secondary">Care wählen</a>
+      <a href="#signup" class="btn-secondary" data-tier="Care">Care wählen</a>
     </div>
     <div class="price-card featured">
       <div class="badge">Beliebt</div>
@@ -1042,7 +1100,7 @@
         <li>Bis zu 2h Content-Anpassungen / Monat</li>
         <li>Reaktionszeit: 4 Stunden</li>
       </ul>
-      <a href="#signup" class="btn-primary">Care+ wählen</a>
+      <a href="#signup" class="btn-primary" data-tier="Care+">Care+ wählen</a>
     </div>
     <div class="price-card">
       <div class="tier-name">Response</div>
@@ -1123,6 +1181,18 @@
         </div>
       </div>
 
+      <!-- Step 3: Number of websites -->
+      <div class="form-step" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
+        <h3>Wie viele Websites möchten Sie betreuen lassen?</h3>
+        <p class="step-desc">Eine Wordfence-Premium-Lizenz pro Website. Sie können später jederzeit weitere hinzufügen.</p>
+        <div class="websites-stepper">
+          <button type="button" class="websites-btn" id="websites-decrement" aria-label="Weniger">−</button>
+          <input type="number" name="anzahl_websites" id="anzahl-websites" value="3" min="1" max="50">
+          <button type="button" class="websites-btn" id="websites-increment" aria-label="Mehr">+</button>
+          <span class="websites-suffix">Website(s) × 149 € Lizenz / Jahr</span>
+        </div>
+      </div>
+
       <!-- Step 4: Notification preferences (preview) -->
       <div class="form-step" style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--wbs-border)">
         <h3>Wie sollen wir Sie benachrichtigen?</h3>
@@ -1185,16 +1255,16 @@
           <div class="form-field full"><label>BIC <span style="color:var(--wbs-text-muted); font-weight: 400; text-transform: none; letter-spacing: 0">(optional bei deutscher IBAN)</span></label><input type="text" name="bic" placeholder="BYLADEM1SWU"></div>
         </div>
 
-        <!-- Order summary (example calculation) -->
-        <h3 style="margin-top: var(--space-xl); font-size: 17px">Beispielrechnung <span style="color:var(--wbs-text-muted); font-weight: 400; font-size: 13px; text-transform: none; letter-spacing: 0">— Care+ mit 3 Websites</span></h3>
+        <!-- Payment summary — recomputed live by JS based on tier and website count -->
+        <h3 style="margin-top: var(--space-xl); font-size: 17px">Zahlungsübersicht <span id="summary-suffix" style="color:var(--wbs-text-muted); font-weight: 400; font-size: 13px; text-transform: none; letter-spacing: 0">— Care+ mit 3 Websites</span></h3>
         <div class="summary-block" style="margin-top: var(--space-md)">
-          <div class="summary-row"><span class="label">Care+ Paket</span><span>2.990,00 €</span></div>
-          <div class="summary-row"><span class="label">Wordfence Premium (3 × 149 €)</span><span>447,00 €</span></div>
-          <div class="summary-row"><span class="label">Zwischensumme</span><span>3.437,00 €</span></div>
-          <div class="summary-row"><span class="label">19% MwSt.</span><span>653,03 €</span></div>
-          <div class="summary-row total"><span>Gesamt / Jahr</span><span>4.090,03 €</span></div>
+          <div class="summary-row"><span class="label" id="summary-tier-label">Care+ Paket</span><span id="summary-tier-amount">2.990,00 €</span></div>
+          <div class="summary-row"><span class="label" id="summary-license-label">Wordfence Premium (3 × 149 €)</span><span id="summary-license-amount">447,00 €</span></div>
+          <div class="summary-row"><span class="label">Zwischensumme</span><span id="summary-subtotal">3.437,00 €</span></div>
+          <div class="summary-row"><span class="label">19% MwSt.</span><span id="summary-vat">653,03 €</span></div>
+          <div class="summary-row total"><span>Gesamt / Jahr</span><span id="summary-total">4.090,03 €</span></div>
         </div>
-        <p style="font-size: 12px; color: var(--wbs-text-muted); margin-top: var(--space-sm)">Ihr individueller Betrag wird auf Basis Ihrer Auswahl berechnet und im Vertragsangebot ausgewiesen.</p>
+        <p style="font-size: 12px; color: var(--wbs-text-muted); margin-top: var(--space-sm)">Der finale Betrag wird im individuellen Vertragsangebot ausgewiesen.</p>
       </div>
 
       <!-- Form actions -->
@@ -1215,19 +1285,80 @@
 </footer>
 
 <script>
-  // Tier option selection — also mirror into hidden form field for submission
-  document.querySelectorAll('.tier-option').forEach(opt => {
-    opt.addEventListener('click', () => {
-      opt.parentElement.querySelectorAll('.tier-option').forEach(o => o.classList.remove('selected'));
-      opt.classList.add('selected');
-      const tierName = opt.querySelector('.tier-option-name');
-      const hidden = document.getElementById('hidden-paket');
-      if (hidden && tierName) {
-        // Strip the "Empfohlen" tag if present
-        hidden.value = tierName.firstChild.textContent.trim();
+  // ----- Pricing data -----
+  const TIER_PRICES = { 'Care': 1790, 'Care+': 2990 };
+  const LICENSE_PRICE = 149;
+  const VAT_RATE = 0.19;
+
+  const fmtEUR = (n) => n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
+  // ----- Recompute the payment summary -----
+  function recomputeSummary() {
+    const tier = (document.getElementById('hidden-paket')?.value) || 'Care+';
+    const sitesEl = document.getElementById('anzahl-websites');
+    let sites = sitesEl ? parseInt(sitesEl.value || '1', 10) : 3;
+    if (isNaN(sites) || sites < 1) sites = 1;
+    if (sites > 50) sites = 50;
+    if (sitesEl) sitesEl.value = sites; // clamp the visible value too
+
+    const tierPrice = TIER_PRICES[tier] ?? TIER_PRICES['Care+'];
+    const licenseCost = sites * LICENSE_PRICE;
+    const subtotal = tierPrice + licenseCost;
+    const vat = subtotal * VAT_RATE;
+    const total = subtotal + vat;
+
+    document.getElementById('summary-suffix').textContent = `— ${tier} mit ${sites} Website${sites === 1 ? '' : 's'}`;
+    document.getElementById('summary-tier-label').textContent = `${tier} Paket`;
+    document.getElementById('summary-tier-amount').textContent = fmtEUR(tierPrice);
+    document.getElementById('summary-license-label').textContent = `Wordfence Premium (${sites} × ${LICENSE_PRICE} €)`;
+    document.getElementById('summary-license-amount').textContent = fmtEUR(licenseCost);
+    document.getElementById('summary-subtotal').textContent = fmtEUR(subtotal);
+    document.getElementById('summary-vat').textContent = fmtEUR(vat);
+    document.getElementById('summary-total').textContent = fmtEUR(total);
+  }
+
+  // ----- Set the active tier (called from pricing cards and tier-options) -----
+  function selectTier(tier) {
+    const hidden = document.getElementById('hidden-paket');
+    if (hidden) hidden.value = tier;
+    // Sync the (currently hidden) tier-option cards inside the form
+    document.querySelectorAll('.tier-option').forEach(opt => {
+      const name = opt.querySelector('.tier-option-name');
+      if (name) {
+        opt.classList.toggle('selected', name.firstChild.textContent.trim() === tier);
       }
     });
+    recomputeSummary();
+  }
+
+  // Pricing-card buttons (top of page) — click → set tier and update summary
+  document.querySelectorAll('a[data-tier]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectTier(btn.getAttribute('data-tier'));
+      // Anchor's default scroll to #signup still happens — no preventDefault
+    });
   });
+
+  // Tier-option cards inside the form (currently display:none, but wired anyway)
+  document.querySelectorAll('.tier-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const tierName = opt.querySelector('.tier-option-name');
+      if (tierName) selectTier(tierName.firstChild.textContent.trim());
+    });
+  });
+
+  // Websites count stepper +/- and direct input
+  document.getElementById('websites-decrement')?.addEventListener('click', () => {
+    const el = document.getElementById('anzahl-websites');
+    el.value = Math.max(1, (parseInt(el.value, 10) || 1) - 1);
+    recomputeSummary();
+  });
+  document.getElementById('websites-increment')?.addEventListener('click', () => {
+    const el = document.getElementById('anzahl-websites');
+    el.value = Math.min(50, (parseInt(el.value, 10) || 1) + 1);
+    recomputeSummary();
+  });
+  document.getElementById('anzahl-websites')?.addEventListener('input', recomputeSummary);
 
   // Channel checkbox toggle (the visual label drives the inner checkbox state)
   document.querySelectorAll('.channel-checkbox').forEach(cb => {
@@ -1258,11 +1389,13 @@
       if (banner) {
         banner.style.display = 'flex';
         banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Clean the URL so a refresh doesn't re-show the banner
         history.replaceState({}, '', window.location.pathname + window.location.hash);
       }
     }
   })();
+
+  // Initial render so the summary is correct on page load
+  recomputeSummary();
 </script>
 </body>
 </html>
